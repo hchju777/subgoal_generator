@@ -1,0 +1,5 @@
+if(EXISTS "/home/changju/cpp_ws/subgoal_generator/build/bvc_gen_test[1]_tests.cmake")
+  include("/home/changju/cpp_ws/subgoal_generator/build/bvc_gen_test[1]_tests.cmake")
+else()
+  add_test(bvc_gen_test_NOT_BUILT bvc_gen_test_NOT_BUILT)
+endif()

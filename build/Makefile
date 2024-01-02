@@ -80,28 +80,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -134,6 +112,28 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,17 +168,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named gtest_test
+# Target rules for targets named bvc_gen_test
 
 # Build rule for target.
-gtest_test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 gtest_test
-.PHONY : gtest_test
+bvc_gen_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 bvc_gen_test
+.PHONY : bvc_gen_test
 
 # fast build rule for target.
-gtest_test/fast:
-	$(MAKE) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/build
-.PHONY : gtest_test/fast
+bvc_gen_test/fast:
+	$(MAKE) -f CMakeFiles/bvc_gen_test.dir/build.make CMakeFiles/bvc_gen_test.dir/build
+.PHONY : bvc_gen_test/fast
 
 #=============================================================================
 # Target rules for targets named subgoal_generator
@@ -192,6 +192,19 @@ subgoal_generator: cmake_check_build_system
 subgoal_generator/fast:
 	$(MAKE) -f CMakeFiles/subgoal_generator.dir/build.make CMakeFiles/subgoal_generator.dir/build
 .PHONY : subgoal_generator/fast
+
+#=============================================================================
+# Target rules for targets named src_lib
+
+# Build rule for target.
+src_lib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 src_lib
+.PHONY : src_lib
+
+# fast build rule for target.
+src_lib/fast:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/build
+.PHONY : src_lib/fast
 
 #=============================================================================
 # Target rules for targets named gmock_main
@@ -245,6 +258,60 @@ gtest/fast:
 	$(MAKE) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build
 .PHONY : gtest/fast
 
+src/bvc_generator.o: src/bvc_generator.cpp.o
+
+.PHONY : src/bvc_generator.o
+
+# target to build an object file
+src/bvc_generator.cpp.o:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o
+.PHONY : src/bvc_generator.cpp.o
+
+src/bvc_generator.i: src/bvc_generator.cpp.i
+
+.PHONY : src/bvc_generator.i
+
+# target to preprocess a source file
+src/bvc_generator.cpp.i:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/bvc_generator.cpp.i
+.PHONY : src/bvc_generator.cpp.i
+
+src/bvc_generator.s: src/bvc_generator.cpp.s
+
+.PHONY : src/bvc_generator.s
+
+# target to generate assembly for a file
+src/bvc_generator.cpp.s:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/bvc_generator.cpp.s
+.PHONY : src/bvc_generator.cpp.s
+
+src/bvc_manager.o: src/bvc_manager.cpp.o
+
+.PHONY : src/bvc_manager.o
+
+# target to build an object file
+src/bvc_manager.cpp.o:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o
+.PHONY : src/bvc_manager.cpp.o
+
+src/bvc_manager.i: src/bvc_manager.cpp.i
+
+.PHONY : src/bvc_manager.i
+
+# target to preprocess a source file
+src/bvc_manager.cpp.i:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/bvc_manager.cpp.i
+.PHONY : src/bvc_manager.cpp.i
+
+src/bvc_manager.s: src/bvc_manager.cpp.s
+
+.PHONY : src/bvc_manager.s
+
+# target to generate assembly for a file
+src/bvc_manager.cpp.s:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/bvc_manager.cpp.s
+.PHONY : src/bvc_manager.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -272,32 +339,32 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/subgoal_generator.dir/build.make CMakeFiles/subgoal_generator.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-test/gtestTest.o: test/gtestTest.cpp.o
+test/bvc_generator_test.o: test/bvc_generator_test.cpp.o
 
-.PHONY : test/gtestTest.o
+.PHONY : test/bvc_generator_test.o
 
 # target to build an object file
-test/gtestTest.cpp.o:
-	$(MAKE) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/test/gtestTest.cpp.o
-.PHONY : test/gtestTest.cpp.o
+test/bvc_generator_test.cpp.o:
+	$(MAKE) -f CMakeFiles/bvc_gen_test.dir/build.make CMakeFiles/bvc_gen_test.dir/test/bvc_generator_test.cpp.o
+.PHONY : test/bvc_generator_test.cpp.o
 
-test/gtestTest.i: test/gtestTest.cpp.i
+test/bvc_generator_test.i: test/bvc_generator_test.cpp.i
 
-.PHONY : test/gtestTest.i
+.PHONY : test/bvc_generator_test.i
 
 # target to preprocess a source file
-test/gtestTest.cpp.i:
-	$(MAKE) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/test/gtestTest.cpp.i
-.PHONY : test/gtestTest.cpp.i
+test/bvc_generator_test.cpp.i:
+	$(MAKE) -f CMakeFiles/bvc_gen_test.dir/build.make CMakeFiles/bvc_gen_test.dir/test/bvc_generator_test.cpp.i
+.PHONY : test/bvc_generator_test.cpp.i
 
-test/gtestTest.s: test/gtestTest.cpp.s
+test/bvc_generator_test.s: test/bvc_generator_test.cpp.s
 
-.PHONY : test/gtestTest.s
+.PHONY : test/bvc_generator_test.s
 
 # target to generate assembly for a file
-test/gtestTest.cpp.s:
-	$(MAKE) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/test/gtestTest.cpp.s
-.PHONY : test/gtestTest.cpp.s
+test/bvc_generator_test.cpp.s:
+	$(MAKE) -f CMakeFiles/bvc_gen_test.dir/build.make CMakeFiles/bvc_gen_test.dir/test/bvc_generator_test.cpp.s
+.PHONY : test/bvc_generator_test.cpp.s
 
 # Help Target
 help:
@@ -307,23 +374,30 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
-	@echo "... edit_cache"
-	@echo "... test"
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... gtest_test"
+	@echo "... edit_cache"
+	@echo "... test"
+	@echo "... bvc_gen_test"
 	@echo "... subgoal_generator"
+	@echo "... src_lib"
 	@echo "... gmock_main"
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
+	@echo "... src/bvc_generator.o"
+	@echo "... src/bvc_generator.i"
+	@echo "... src/bvc_generator.s"
+	@echo "... src/bvc_manager.o"
+	@echo "... src/bvc_manager.i"
+	@echo "... src/bvc_manager.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... test/gtestTest.o"
-	@echo "... test/gtestTest.i"
-	@echo "... test/gtestTest.s"
+	@echo "... test/bvc_generator_test.o"
+	@echo "... test/bvc_generator_test.i"
+	@echo "... test/bvc_generator_test.s"
 .PHONY : help
 
 

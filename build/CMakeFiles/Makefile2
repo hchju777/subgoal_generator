@@ -53,8 +53,9 @@ CMAKE_BINARY_DIR = /home/changju/cpp_ws/subgoal_generator/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/gtest_test.dir/all
+all: CMakeFiles/bvc_gen_test.dir/all
 all: CMakeFiles/subgoal_generator.dir/all
+all: CMakeFiles/src_lib.dir/all
 all: _deps/googletest-build/all
 
 .PHONY : all
@@ -65,8 +66,9 @@ preinstall: _deps/googletest-build/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/gtest_test.dir/clean
+clean: CMakeFiles/bvc_gen_test.dir/clean
 clean: CMakeFiles/subgoal_generator.dir/clean
+clean: CMakeFiles/src_lib.dir/clean
 clean: _deps/googletest-build/clean
 
 .PHONY : clean
@@ -132,46 +134,47 @@ _deps/googletest-build/googletest/clean: _deps/googletest-build/googletest/CMake
 .PHONY : _deps/googletest-build/googletest/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/gtest_test.dir
+# Target rules for target CMakeFiles/bvc_gen_test.dir
 
 # All Build rule for target.
-CMakeFiles/gtest_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
-CMakeFiles/gtest_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
-	$(MAKE) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/depend
-	$(MAKE) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=9,10 "Built target gtest_test"
-.PHONY : CMakeFiles/gtest_test.dir/all
+CMakeFiles/bvc_gen_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
+CMakeFiles/bvc_gen_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+CMakeFiles/bvc_gen_test.dir/all: CMakeFiles/src_lib.dir/all
+	$(MAKE) -f CMakeFiles/bvc_gen_test.dir/build.make CMakeFiles/bvc_gen_test.dir/depend
+	$(MAKE) -f CMakeFiles/bvc_gen_test.dir/build.make CMakeFiles/bvc_gen_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=1,2 "Built target bvc_gen_test"
+.PHONY : CMakeFiles/bvc_gen_test.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/gtest_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/gtest_test.dir/all
+CMakeFiles/bvc_gen_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles 9
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/bvc_gen_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles 0
-.PHONY : CMakeFiles/gtest_test.dir/rule
+.PHONY : CMakeFiles/bvc_gen_test.dir/rule
 
 # Convenience name for target.
-gtest_test: CMakeFiles/gtest_test.dir/rule
+bvc_gen_test: CMakeFiles/bvc_gen_test.dir/rule
 
-.PHONY : gtest_test
+.PHONY : bvc_gen_test
 
 # clean rule for target.
-CMakeFiles/gtest_test.dir/clean:
-	$(MAKE) -f CMakeFiles/gtest_test.dir/build.make CMakeFiles/gtest_test.dir/clean
-.PHONY : CMakeFiles/gtest_test.dir/clean
+CMakeFiles/bvc_gen_test.dir/clean:
+	$(MAKE) -f CMakeFiles/bvc_gen_test.dir/build.make CMakeFiles/bvc_gen_test.dir/clean
+.PHONY : CMakeFiles/bvc_gen_test.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/subgoal_generator.dir
 
 # All Build rule for target.
-CMakeFiles/subgoal_generator.dir/all:
+CMakeFiles/subgoal_generator.dir/all: CMakeFiles/src_lib.dir/all
 	$(MAKE) -f CMakeFiles/subgoal_generator.dir/build.make CMakeFiles/subgoal_generator.dir/depend
 	$(MAKE) -f CMakeFiles/subgoal_generator.dir/build.make CMakeFiles/subgoal_generator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=11,12 "Built target subgoal_generator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=14,15 "Built target subgoal_generator"
 .PHONY : CMakeFiles/subgoal_generator.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/subgoal_generator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/subgoal_generator.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles 0
 .PHONY : CMakeFiles/subgoal_generator.dir/rule
@@ -187,6 +190,33 @@ CMakeFiles/subgoal_generator.dir/clean:
 .PHONY : CMakeFiles/subgoal_generator.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/src_lib.dir
+
+# All Build rule for target.
+CMakeFiles/src_lib.dir/all:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/depend
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=11,12,13 "Built target src_lib"
+.PHONY : CMakeFiles/src_lib.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/src_lib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/src_lib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles 0
+.PHONY : CMakeFiles/src_lib.dir/rule
+
+# Convenience name for target.
+src_lib: CMakeFiles/src_lib.dir/rule
+
+.PHONY : src_lib
+
+# clean rule for target.
+CMakeFiles/src_lib.dir/clean:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/clean
+.PHONY : CMakeFiles/src_lib.dir/clean
+
+#=============================================================================
 # Target rules for target _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir
 
 # All Build rule for target.
@@ -194,7 +224,7 @@ _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletes
 _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) -f _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=3,4 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=5,6 "Built target gmock_main"
 .PHONY : _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -221,7 +251,7 @@ _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/clean:
 _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build.make _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=1,2 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=3,4 "Built target gmock"
 .PHONY : _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -248,7 +278,7 @@ _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/clean:
 _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=7,8 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=9,10 "Built target gtest_main"
 .PHONY : _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -275,7 +305,7 @@ _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/clean:
 _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=5,6 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=7,8 "Built target gtest"
 .PHONY : _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.

@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/gtest_test.dir/test/gtestTest.cpp.o  -o gtest_test  lib/libgtest_main.a lib/libgtest.a -lpthread 

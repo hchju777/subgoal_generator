@@ -79,10 +79,10 @@ subgoal_generator_EXTERNAL_OBJECTS =
 
 subgoal_generator: CMakeFiles/subgoal_generator.dir/src/main.cpp.o
 subgoal_generator: CMakeFiles/subgoal_generator.dir/build.make
+subgoal_generator: libsrc_lib.a
 subgoal_generator: /usr/lib/x86_64-linux-gnu/libyaml-cpp.so.0.6.2
-subgoal_generator: /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0
-subgoal_generator: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
-subgoal_generator: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0
+subgoal_generator: /usr/lib/x86_64-linux-gnu/libmpfr.so
+subgoal_generator: /usr/lib/x86_64-linux-gnu/libgmp.so
 subgoal_generator: CMakeFiles/subgoal_generator.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable subgoal_generator"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/subgoal_generator.dir/link.txt --verbose=$(VERBOSE)
