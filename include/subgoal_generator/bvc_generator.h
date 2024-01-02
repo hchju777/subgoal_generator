@@ -17,6 +17,10 @@
 #include <CGAL/Polygon_2_algorithms.h>
 #include <CGAL/bounding_box.h>
 
+#include <CGAL/create_offset_polygons_2.h>
+#include <CGAL/Polygon_offset_builder_2.h>
+#include <CGAL/Straight_skeleton_2/Straight_skeleton_aux.h>
+
 #include <CGAL/Random.h>
 #include <CGAL/Triangulation_utils_2.h>
 #include <CGAL/Voronoi_diagram_2/Face.h>
@@ -56,6 +60,9 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
     public:
         bool get_polygon(const Point_2 &_point, CGAL::Polygon_2<Kernel>& _poly);
+
+    public:
+        void convert_to_bvc(CGAL::Polygon_2<Kernel>& _poly, double _offset);
 
     public:
         inline VD &vd() { return vd_; }

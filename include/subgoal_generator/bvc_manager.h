@@ -8,7 +8,7 @@
 
 // yaml-cpp includes
 // Need to install libyaml-cpp-dev
-#include <yaml-cpp/yaml.h> 
+#include <yaml-cpp/yaml.h>
 
 // CGAL includes
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
@@ -51,7 +51,19 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
             std::string _dirName = "result",
             std::string _fileName = "voronoi");
 
+        static bool exportBufferedVoronoiDiagram(
+            const VoronoiDiagram &_voronoi_diagram,
+            const VoronoiDiagram &_buffered_voronoi_diagram,
+            std::string _dirName = "result",
+            std::string _fileName = "voronoi");
+
         static void printPolygon(const CGAL::Polygon_2<Kernel> &_polygon);
+    
+    protected:
+        static bool isDirExists(std::string _dirName);
+
+        static void updateCellToYaml(
+            const CGAL::Polygon_2<Kernel> &_polygon, std::string _label, YAML::Node &_node);
 
     }; // class Manager
 } // namespace namespace SubgoalGenerator::BufferedVoronoiDiagram

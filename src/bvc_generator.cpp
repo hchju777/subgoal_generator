@@ -19,7 +19,7 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         std::cout << "Buffered Voronoi Diagram Generator has been terminated." << std::endl;
     }
 
-    bool Generator::get_polygon(const Point_2 &_point, CGAL::Polygon_2<Kernel>& _poly)
+    bool Generator::get_polygon(const Point_2 &_point, CGAL::Polygon_2<Kernel> &_poly)
     {
         assert(is_valid());
 
@@ -69,6 +69,19 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         }
 
         return false;
+    }
+
+    void Generator::convert_to_bvc(CGAL::Polygon_2<Kernel> &_poly, double _offset)
+    {
+        assert(_poly.is_counterclockwise_oriented());
+
+        auto ss = CGAL::create_interior_straight_skeleton_2(_poly);
+
+        auto offset_polygon = CGAL::create_offset_polygons_2<CGAL::Polygon_2<Kernel>>(_offset, *ss);
+
+        assert(offset_polygon.size() == 1);
+
+        _poly = *offset_polygon.front();
     }
 
     Kernel::Segment_2 Generator::convert_to_seg(const CGAL::Object _seg_obj, bool _outgoing)

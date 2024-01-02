@@ -31,6 +31,12 @@ CGAL/Polygon_2_algorithms.h
 -
 CGAL/bounding_box.h
 -
+CGAL/create_offset_polygons_2.h
+-
+CGAL/Polygon_offset_builder_2.h
+-
+CGAL/Straight_skeleton_2/Straight_skeleton_aux.h
+-
 CGAL/Random.h
 -
 CGAL/Triangulation_utils_2.h
