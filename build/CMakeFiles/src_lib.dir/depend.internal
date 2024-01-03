@@ -7,3 +7,14 @@ CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o
 CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o
  ../include/subgoal_generator/bvc_manager.h
  /home/changju/cpp_ws/subgoal_generator/src/bvc_manager.cpp
+CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o
+ ../include/subgoal_generator/dynamic_graph.h
+ ../include/subgoal_generator/pose.h
+ ../include/subgoal_generator/vertex.h
+ /home/changju/cpp_ws/subgoal_generator/src/dynamic_graph.cpp
+CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o
+ ../include/subgoal_generator/dynamic_graph.h
+ ../include/subgoal_generator/dynamic_graph_manager.h
+ ../include/subgoal_generator/pose.h
+ ../include/subgoal_generator/vertex.h
+ /home/changju/cpp_ws/subgoal_generator/src/dynamic_graph_manager.cpp

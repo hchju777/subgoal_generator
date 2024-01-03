@@ -1,0 +1,5 @@
+add_test( DynamicGraphTest.DynamicGraphHandle_TEST /home/changju/cpp_ws/subgoal_generator/build/dynamic_graph_test [==[--gtest_filter=DynamicGraphTest.DynamicGraphHandle_TEST]==] --gtest_also_run_disabled_tests)
+set_tests_properties( DynamicGraphTest.DynamicGraphHandle_TEST PROPERTIES WORKING_DIRECTORY /home/changju/cpp_ws/subgoal_generator/build)
+add_test( DynamicGraphTest.ExportGraph_TEST /home/changju/cpp_ws/subgoal_generator/build/dynamic_graph_test [==[--gtest_filter=DynamicGraphTest.ExportGraph_TEST]==] --gtest_also_run_disabled_tests)
+set_tests_properties( DynamicGraphTest.ExportGraph_TEST PROPERTIES WORKING_DIRECTORY /home/changju/cpp_ws/subgoal_generator/build)
+set( dynamic_graph_test_TESTS DynamicGraphTest.DynamicGraphHandle_TEST DynamicGraphTest.ExportGraph_TEST)

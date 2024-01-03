@@ -194,6 +194,19 @@ subgoal_generator/fast:
 .PHONY : subgoal_generator/fast
 
 #=============================================================================
+# Target rules for targets named dynamic_graph_test
+
+# Build rule for target.
+dynamic_graph_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_graph_test
+.PHONY : dynamic_graph_test
+
+# fast build rule for target.
+dynamic_graph_test/fast:
+	$(MAKE) -f CMakeFiles/dynamic_graph_test.dir/build.make CMakeFiles/dynamic_graph_test.dir/build
+.PHONY : dynamic_graph_test/fast
+
+#=============================================================================
 # Target rules for targets named src_lib
 
 # Build rule for target.
@@ -312,6 +325,60 @@ src/bvc_manager.cpp.s:
 	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/bvc_manager.cpp.s
 .PHONY : src/bvc_manager.cpp.s
 
+src/dynamic_graph.o: src/dynamic_graph.cpp.o
+
+.PHONY : src/dynamic_graph.o
+
+# target to build an object file
+src/dynamic_graph.cpp.o:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o
+.PHONY : src/dynamic_graph.cpp.o
+
+src/dynamic_graph.i: src/dynamic_graph.cpp.i
+
+.PHONY : src/dynamic_graph.i
+
+# target to preprocess a source file
+src/dynamic_graph.cpp.i:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.i
+.PHONY : src/dynamic_graph.cpp.i
+
+src/dynamic_graph.s: src/dynamic_graph.cpp.s
+
+.PHONY : src/dynamic_graph.s
+
+# target to generate assembly for a file
+src/dynamic_graph.cpp.s:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.s
+.PHONY : src/dynamic_graph.cpp.s
+
+src/dynamic_graph_manager.o: src/dynamic_graph_manager.cpp.o
+
+.PHONY : src/dynamic_graph_manager.o
+
+# target to build an object file
+src/dynamic_graph_manager.cpp.o:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o
+.PHONY : src/dynamic_graph_manager.cpp.o
+
+src/dynamic_graph_manager.i: src/dynamic_graph_manager.cpp.i
+
+.PHONY : src/dynamic_graph_manager.i
+
+# target to preprocess a source file
+src/dynamic_graph_manager.cpp.i:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.i
+.PHONY : src/dynamic_graph_manager.cpp.i
+
+src/dynamic_graph_manager.s: src/dynamic_graph_manager.cpp.s
+
+.PHONY : src/dynamic_graph_manager.s
+
+# target to generate assembly for a file
+src/dynamic_graph_manager.cpp.s:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.s
+.PHONY : src/dynamic_graph_manager.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -366,6 +433,33 @@ test/bvc_generator_test.cpp.s:
 	$(MAKE) -f CMakeFiles/bvc_gen_test.dir/build.make CMakeFiles/bvc_gen_test.dir/test/bvc_generator_test.cpp.s
 .PHONY : test/bvc_generator_test.cpp.s
 
+test/dynamic_graph_test.o: test/dynamic_graph_test.cpp.o
+
+.PHONY : test/dynamic_graph_test.o
+
+# target to build an object file
+test/dynamic_graph_test.cpp.o:
+	$(MAKE) -f CMakeFiles/dynamic_graph_test.dir/build.make CMakeFiles/dynamic_graph_test.dir/test/dynamic_graph_test.cpp.o
+.PHONY : test/dynamic_graph_test.cpp.o
+
+test/dynamic_graph_test.i: test/dynamic_graph_test.cpp.i
+
+.PHONY : test/dynamic_graph_test.i
+
+# target to preprocess a source file
+test/dynamic_graph_test.cpp.i:
+	$(MAKE) -f CMakeFiles/dynamic_graph_test.dir/build.make CMakeFiles/dynamic_graph_test.dir/test/dynamic_graph_test.cpp.i
+.PHONY : test/dynamic_graph_test.cpp.i
+
+test/dynamic_graph_test.s: test/dynamic_graph_test.cpp.s
+
+.PHONY : test/dynamic_graph_test.s
+
+# target to generate assembly for a file
+test/dynamic_graph_test.cpp.s:
+	$(MAKE) -f CMakeFiles/dynamic_graph_test.dir/build.make CMakeFiles/dynamic_graph_test.dir/test/dynamic_graph_test.cpp.s
+.PHONY : test/dynamic_graph_test.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -381,6 +475,7 @@ help:
 	@echo "... test"
 	@echo "... bvc_gen_test"
 	@echo "... subgoal_generator"
+	@echo "... dynamic_graph_test"
 	@echo "... src_lib"
 	@echo "... gmock_main"
 	@echo "... gmock"
@@ -392,12 +487,21 @@ help:
 	@echo "... src/bvc_manager.o"
 	@echo "... src/bvc_manager.i"
 	@echo "... src/bvc_manager.s"
+	@echo "... src/dynamic_graph.o"
+	@echo "... src/dynamic_graph.i"
+	@echo "... src/dynamic_graph.s"
+	@echo "... src/dynamic_graph_manager.o"
+	@echo "... src/dynamic_graph_manager.i"
+	@echo "... src/dynamic_graph_manager.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... test/bvc_generator_test.o"
 	@echo "... test/bvc_generator_test.i"
 	@echo "... test/bvc_generator_test.s"
+	@echo "... test/dynamic_graph_test.o"
+	@echo "... test/dynamic_graph_test.i"
+	@echo "... test/dynamic_graph_test.s"
 .PHONY : help
 
 

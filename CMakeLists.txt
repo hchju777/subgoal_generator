@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(MY_TARGET subgoal_generator)
@@ -17,9 +17,11 @@ ENDIF()
 find_package(yaml-cpp REQUIRED)
 find_package(Boost REQUIRED COMPONENTS program_options system filesystem)
 find_package(CGAL REQUIRED)
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 include_directories( ${YAML_CPP_INCUDE_DIRS})
 include_directories( ${Boost_INCLUDE_DIRS} )
+include_directories( ${Eigen3_INCLUDE_DIRS} )
 
 include_directories("include")
 file(GLOB SRC_FILES "src/*.cpp")
@@ -32,6 +34,7 @@ target_link_libraries(libraries INTERFACE
   ${YAML_CPP_LIBRARIES}
   ${Boost_LIBRARIES}
   ${CGAL_LIBRARIES}
+  ${Eigen3_LIBS}
 )
 
 add_executable(${MY_TARGET} ${PROJECT_SOURCE_DIR}/src/main.cpp)
@@ -57,4 +60,9 @@ if (BUILD_TESTS)
   target_link_libraries(bvc_gen_test libraries)
   target_link_libraries(bvc_gen_test GTest::gtest_main)
   gtest_discover_tests(bvc_gen_test)
+
+  add_executable(dynamic_graph_test test/dynamic_graph_test.cpp)
+  target_link_libraries(dynamic_graph_test libraries)
+  target_link_libraries(dynamic_graph_test GTest::gtest_main)
+  gtest_discover_tests(dynamic_graph_test)
 endif()

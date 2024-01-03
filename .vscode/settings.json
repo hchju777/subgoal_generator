@@ -137,6 +137,7 @@
     "bit": "cpp",
     "forward_list": "cpp",
     "*.ipp": "cpp",
-    "cassert": "cpp"
+    "cassert": "cpp",
+    "core": "cpp"
   }
 }

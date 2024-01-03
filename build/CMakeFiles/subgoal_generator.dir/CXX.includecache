@@ -6,43 +6,7 @@
 
 #IncludeRegexTransform: 
 
-../include/subgoal_generator/bvc_manager.h
+/home/changju/cpp_ws/subgoal_generator/src/main.cpp
 iostream
 -
-fstream
--
-memory
--
-filesystem
--
-yaml-cpp/yaml.h
--
-CGAL/Exact_predicates_inexact_constructions_kernel.h
--
-CGAL/Delaunay_triangulation_2.h
--
-CGAL/Delaunay_triangulation_adaptation_traits_2.h
--
-CGAL/Polygon_2.h
--
-
-/home/changju/cpp_ws/subgoal_generator/src/main.cpp
-CGAL/Exact_predicates_inexact_constructions_kernel.h
--
-CGAL/Polygon_2.h
--
-CGAL/create_offset_polygons_2.h
--
-CGAL/Straight_skeleton_2/Straight_skeleton_aux.h
--
-CGAL/Polygon_offset_builder_2.h
--
-memory
--
-vector
--
-cassert
--
-subgoal_generator/bvc_manager.h
-/home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/bvc_manager.h
 

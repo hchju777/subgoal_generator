@@ -316,6 +316,9 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//The directory containing a CMake configuration file for Eigen3.
+Eigen3_DIR:PATH=/usr/lib/cmake/eigen3
+
 //Directory under which to collect all populated content
 FETCHCONTENT_BASE_DIR:PATH=/home/changju/cpp_ws/subgoal_generator/build/_deps
 

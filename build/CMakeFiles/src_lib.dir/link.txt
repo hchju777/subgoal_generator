@@ -1,2 +1,2 @@
-/usr/bin/ar qc libsrc_lib.a  CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o
+/usr/bin/ar qc libsrc_lib.a  CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o
 /usr/bin/ranlib libsrc_lib.a

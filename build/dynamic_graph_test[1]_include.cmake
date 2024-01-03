@@ -1,0 +1,5 @@
+if(EXISTS "/home/changju/cpp_ws/subgoal_generator/build/dynamic_graph_test[1]_tests.cmake")
+  include("/home/changju/cpp_ws/subgoal_generator/build/dynamic_graph_test[1]_tests.cmake")
+else()
+  add_test(dynamic_graph_test_NOT_BUILT dynamic_graph_test_NOT_BUILT)
+endif()

@@ -7,3 +7,14 @@ CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o: ../src/bvc_generator.cpp
 CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o: ../include/subgoal_generator/bvc_manager.h
 CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o: ../src/bvc_manager.cpp
 
+CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o: ../include/subgoal_generator/dynamic_graph.h
+CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o: ../include/subgoal_generator/pose.h
+CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o: ../include/subgoal_generator/vertex.h
+CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o: ../src/dynamic_graph.cpp
+
+CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o: ../include/subgoal_generator/dynamic_graph.h
+CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o: ../include/subgoal_generator/dynamic_graph_manager.h
+CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o: ../include/subgoal_generator/pose.h
+CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o: ../include/subgoal_generator/vertex.h
+CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o: ../src/dynamic_graph_manager.cpp
+

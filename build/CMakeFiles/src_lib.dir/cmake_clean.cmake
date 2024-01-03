@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o"
   "CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o"
+  "CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o"
+  "CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o"
   "libsrc_lib.a"
   "libsrc_lib.pdb"
 )
