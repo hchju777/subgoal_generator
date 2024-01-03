@@ -2,14 +2,12 @@
 
 namespace SubgoalGenerator::BufferedVoronoiDiagram
 {
-    Manager::Manager()
+    void Manager::printPolygon(const CGAL::Polygon_2<Kernel> &_polygon)
     {
-        std::cout << "Buffered Voronoi Diagram Manager has been initilized." << std::endl;
-    }
-
-    Manager::~Manager()
-    {
-        std::cout << "Buffered Voronoi Diagram Manager has been terminated." << std::endl;
+        for (auto viter = _polygon.vertices_begin(); viter != _polygon.vertices_end(); ++viter)
+        {
+            std::cout << "\t" << viter->x() << " " << viter->y() << std::endl;
+        }
     }
 
     void Manager::clearResultDir(std::string _dirName)
@@ -42,7 +40,7 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
             cell["point"] = point;
             cell["point"].SetStyle(YAML::EmitterStyle::Flow);
 
-            updateCellToYaml(voronoi_cell.second, "polygon", cell);
+            exportPolygonData(voronoi_cell.second, "polygon", cell);
 
             diagram.push_back(cell);
         }
@@ -78,12 +76,14 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
             YAML::Node cell;
 
-            std::vector<double> point = {voronoi_cell.first.x(), voronoi_cell.first.y()};
-            cell["point"] = point;
-            cell["point"].SetStyle(YAML::EmitterStyle::Flow);
+            exportVoronoiCellData(voronoi_cell, cell);
 
-            updateCellToYaml(voronoi_cell.second, "polygon", cell);
-            updateCellToYaml(buffered_voronoi_cell.second, "offset_polygon", cell);
+            // std::vector<double> point = {voronoi_cell.first.x(), voronoi_cell.first.y()};
+            // cell["point"] = point;
+            // cell["point"].SetStyle(YAML::EmitterStyle::Flow);
+
+            // exportPolygonData(voronoi_cell.second, "polygon", cell);
+            exportPolygonData(buffered_voronoi_cell.second, "offset_polygon", cell);
 
             diagram.push_back(cell);
         }
@@ -96,12 +96,14 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         return true;
     }
 
-    void Manager::printPolygon(const CGAL::Polygon_2<Kernel> &_polygon)
+    void Manager::exportVoronoiCellData(
+        const VoronoiCell &_voronoi_cell, YAML::Node &_node)
     {
-        for (auto viter = _polygon.vertices_begin(); viter != _polygon.vertices_end(); ++viter)
-        {
-            std::cout << "\t" << viter->x() << " " << viter->y() << std::endl;
-        }
+        std::vector<double> point = {_voronoi_cell.first.x(), _voronoi_cell.first.y()};
+        _node["point"] = point;
+        _node["point"].SetStyle(YAML::EmitterStyle::Flow);
+
+        exportPolygonData(_voronoi_cell.second, "polygon", _node);
     }
 
     bool Manager::isDirExists(std::string _dirName)
@@ -112,7 +114,7 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         return std::filesystem::exists(directory_path);
     }
 
-    void Manager::updateCellToYaml(const CGAL::Polygon_2<Kernel> &_polygon, std::string _label, YAML::Node &_node)
+    void Manager::exportPolygonData(const CGAL::Polygon_2<Kernel> &_polygon, std::string _label, YAML::Node &_node)
     {
         for (auto viter = _polygon.vertices_begin(); viter != _polygon.vertices_end(); ++viter)
         {

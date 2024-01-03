@@ -37,9 +37,7 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         typedef std::vector<VoronoiCell> VoronoiDiagram;
 
     public:
-        Manager();
-
-        ~Manager();
+        static void printPolygon(const CGAL::Polygon_2<Kernel> &_polygon);
 
     public:
         // Todo: Make manager interface
@@ -57,13 +55,14 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
             std::string _dirName = "result",
             std::string _fileName = "voronoi");
 
-        static void printPolygon(const CGAL::Polygon_2<Kernel> &_polygon);
-    
+        static void exportVoronoiCellData(
+            const VoronoiCell &_voronoi_cell, YAML::Node &_node);
+
+        static void exportPolygonData(
+            const CGAL::Polygon_2<Kernel> &_polygon, std::string _label, YAML::Node &_node);
+
     protected:
         static bool isDirExists(std::string _dirName);
-
-        static void updateCellToYaml(
-            const CGAL::Polygon_2<Kernel> &_polygon, std::string _label, YAML::Node &_node);
 
     }; // class Manager
 } // namespace namespace SubgoalGenerator::BufferedVoronoiDiagram
