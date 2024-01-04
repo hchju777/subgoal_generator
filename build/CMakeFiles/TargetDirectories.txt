@@ -5,6 +5,7 @@
 /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles/rebuild_cache.dir
 /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles/edit_cache.dir
 /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles/test.dir
+/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles/velocity_obstacle_test.dir
 /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles/bvc_gen_test.dir
 /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles/subgoal_generator.dir
 /home/changju/cpp_ws/subgoal_generator/build/CMakeFiles/dynamic_graph_test.dir

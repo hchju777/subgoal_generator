@@ -119,6 +119,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/velocity_obstacle_test.dir/DependInfo.cmake"
   "CMakeFiles/bvc_gen_test.dir/DependInfo.cmake"
   "CMakeFiles/subgoal_generator.dir/DependInfo.cmake"
   "CMakeFiles/dynamic_graph_test.dir/DependInfo.cmake"

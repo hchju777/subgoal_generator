@@ -34,11 +34,11 @@ namespace SubgoalGenerator::DynamicGraph
                 if (_low.goalDistance() < _high.goalDistance())
                     return false;
 
-                Eigen::Vector2d unitVec = _high.current().orientationUnitVec();
-                Eigen::Vector2d diffVec = _low.current().position() - _high.current().position();
+                // Eigen::Vector2d unitVec = _high.current().orientationUnitVec();
+                // Eigen::Vector2d diffVec = _low.current().position() - _high.current().position();
 
-                if (unitVec.dot(diffVec) < 0)
-                    return false;
+                // if (unitVec.dot(diffVec) < 0)
+                //     return false;
 
                 return true;
             };

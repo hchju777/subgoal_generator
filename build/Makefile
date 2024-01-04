@@ -168,6 +168,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named velocity_obstacle_test
+
+# Build rule for target.
+velocity_obstacle_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 velocity_obstacle_test
+.PHONY : velocity_obstacle_test
+
+# fast build rule for target.
+velocity_obstacle_test/fast:
+	$(MAKE) -f CMakeFiles/velocity_obstacle_test.dir/build.make CMakeFiles/velocity_obstacle_test.dir/build
+.PHONY : velocity_obstacle_test/fast
+
+#=============================================================================
 # Target rules for targets named bvc_gen_test
 
 # Build rule for target.
@@ -270,6 +283,33 @@ gtest: cmake_check_build_system
 gtest/fast:
 	$(MAKE) -f _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build.make _deps/googletest-build/googletest/CMakeFiles/gtest.dir/build
 .PHONY : gtest/fast
+
+src/agent.o: src/agent.cpp.o
+
+.PHONY : src/agent.o
+
+# target to build an object file
+src/agent.cpp.o:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/agent.cpp.o
+.PHONY : src/agent.cpp.o
+
+src/agent.i: src/agent.cpp.i
+
+.PHONY : src/agent.i
+
+# target to preprocess a source file
+src/agent.cpp.i:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/agent.cpp.i
+.PHONY : src/agent.cpp.i
+
+src/agent.s: src/agent.cpp.s
+
+.PHONY : src/agent.s
+
+# target to generate assembly for a file
+src/agent.cpp.s:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/agent.cpp.s
+.PHONY : src/agent.cpp.s
 
 src/bvc_generator.o: src/bvc_generator.cpp.o
 
@@ -406,6 +446,60 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/subgoal_generator.dir/build.make CMakeFiles/subgoal_generator.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/velocity_obstacle.o: src/velocity_obstacle.cpp.o
+
+.PHONY : src/velocity_obstacle.o
+
+# target to build an object file
+src/velocity_obstacle.cpp.o:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o
+.PHONY : src/velocity_obstacle.cpp.o
+
+src/velocity_obstacle.i: src/velocity_obstacle.cpp.i
+
+.PHONY : src/velocity_obstacle.i
+
+# target to preprocess a source file
+src/velocity_obstacle.cpp.i:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.i
+.PHONY : src/velocity_obstacle.cpp.i
+
+src/velocity_obstacle.s: src/velocity_obstacle.cpp.s
+
+.PHONY : src/velocity_obstacle.s
+
+# target to generate assembly for a file
+src/velocity_obstacle.cpp.s:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.s
+.PHONY : src/velocity_obstacle.cpp.s
+
+src/velocity_obstacle_manager.o: src/velocity_obstacle_manager.cpp.o
+
+.PHONY : src/velocity_obstacle_manager.o
+
+# target to build an object file
+src/velocity_obstacle_manager.cpp.o:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.o
+.PHONY : src/velocity_obstacle_manager.cpp.o
+
+src/velocity_obstacle_manager.i: src/velocity_obstacle_manager.cpp.i
+
+.PHONY : src/velocity_obstacle_manager.i
+
+# target to preprocess a source file
+src/velocity_obstacle_manager.cpp.i:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.i
+.PHONY : src/velocity_obstacle_manager.cpp.i
+
+src/velocity_obstacle_manager.s: src/velocity_obstacle_manager.cpp.s
+
+.PHONY : src/velocity_obstacle_manager.s
+
+# target to generate assembly for a file
+src/velocity_obstacle_manager.cpp.s:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.s
+.PHONY : src/velocity_obstacle_manager.cpp.s
+
 test/bvc_generator_test.o: test/bvc_generator_test.cpp.o
 
 .PHONY : test/bvc_generator_test.o
@@ -460,6 +554,33 @@ test/dynamic_graph_test.cpp.s:
 	$(MAKE) -f CMakeFiles/dynamic_graph_test.dir/build.make CMakeFiles/dynamic_graph_test.dir/test/dynamic_graph_test.cpp.s
 .PHONY : test/dynamic_graph_test.cpp.s
 
+test/velocity_obstacle_test.o: test/velocity_obstacle_test.cpp.o
+
+.PHONY : test/velocity_obstacle_test.o
+
+# target to build an object file
+test/velocity_obstacle_test.cpp.o:
+	$(MAKE) -f CMakeFiles/velocity_obstacle_test.dir/build.make CMakeFiles/velocity_obstacle_test.dir/test/velocity_obstacle_test.cpp.o
+.PHONY : test/velocity_obstacle_test.cpp.o
+
+test/velocity_obstacle_test.i: test/velocity_obstacle_test.cpp.i
+
+.PHONY : test/velocity_obstacle_test.i
+
+# target to preprocess a source file
+test/velocity_obstacle_test.cpp.i:
+	$(MAKE) -f CMakeFiles/velocity_obstacle_test.dir/build.make CMakeFiles/velocity_obstacle_test.dir/test/velocity_obstacle_test.cpp.i
+.PHONY : test/velocity_obstacle_test.cpp.i
+
+test/velocity_obstacle_test.s: test/velocity_obstacle_test.cpp.s
+
+.PHONY : test/velocity_obstacle_test.s
+
+# target to generate assembly for a file
+test/velocity_obstacle_test.cpp.s:
+	$(MAKE) -f CMakeFiles/velocity_obstacle_test.dir/build.make CMakeFiles/velocity_obstacle_test.dir/test/velocity_obstacle_test.cpp.s
+.PHONY : test/velocity_obstacle_test.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -473,6 +594,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... test"
+	@echo "... velocity_obstacle_test"
 	@echo "... bvc_gen_test"
 	@echo "... subgoal_generator"
 	@echo "... dynamic_graph_test"
@@ -481,6 +603,9 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
+	@echo "... src/agent.o"
+	@echo "... src/agent.i"
+	@echo "... src/agent.s"
 	@echo "... src/bvc_generator.o"
 	@echo "... src/bvc_generator.i"
 	@echo "... src/bvc_generator.s"
@@ -496,12 +621,21 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/velocity_obstacle.o"
+	@echo "... src/velocity_obstacle.i"
+	@echo "... src/velocity_obstacle.s"
+	@echo "... src/velocity_obstacle_manager.o"
+	@echo "... src/velocity_obstacle_manager.i"
+	@echo "... src/velocity_obstacle_manager.s"
 	@echo "... test/bvc_generator_test.o"
 	@echo "... test/bvc_generator_test.i"
 	@echo "... test/bvc_generator_test.s"
 	@echo "... test/dynamic_graph_test.o"
 	@echo "... test/dynamic_graph_test.i"
 	@echo "... test/dynamic_graph_test.s"
+	@echo "... test/velocity_obstacle_test.o"
+	@echo "... test/velocity_obstacle_test.i"
+	@echo "... test/velocity_obstacle_test.s"
 .PHONY : help
 
 
