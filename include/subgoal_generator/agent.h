@@ -80,23 +80,7 @@ namespace SubgoalGenerator
         inline const double &timeHorizon() const { return timeHorizon_; }
 
     public:
-        Agent &operator=(const Agent &_rhs)
-        {
-            if (&_rhs != this)
-            {
-                name_ = _rhs.name_;
-                goal_ = _rhs.goal_;
-                velocity_ = _rhs.velocity_;
-                radius_ = _rhs.radius_;
-
-                neighbors_ = _rhs.neighbors_;
-                VOCones_ = _rhs.VOCones_;
-
-                timeHorizon_ = _rhs.timeHorizon_;
-            }
-
-            return *this;
-        }
+        Agent &operator=(const Agent &_rhs);
 
     public:
         void init();
@@ -130,4 +114,7 @@ namespace SubgoalGenerator
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     }; // class Agent
+
+    typedef std::map<std::string, Agent> Agents;
+
 } // namespace SubgoalGenerator

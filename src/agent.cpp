@@ -16,6 +16,26 @@ namespace SubgoalGenerator
 
         timeHorizon_ = _agent.timeHorizon_;
     }
+    
+    Agent &Agent::operator=(const Agent &_rhs)
+    {
+        if (&_rhs != this)
+        {
+            name_ = _rhs.name_;
+
+            pose_ = _rhs.pose_;
+            goal_ = _rhs.goal_;
+            velocity_ = _rhs.velocity_;
+            radius_ = _rhs.radius_;
+
+            neighbors_ = _rhs.neighbors_;
+            VOCones_ = _rhs.VOCones_;
+
+            timeHorizon_ = _rhs.timeHorizon_;
+        }
+
+        return *this;
+    }
 
     void Agent::init()
     {
