@@ -36,7 +36,8 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         {
             YAML::Node cell;
 
-            std::vector<double> point = {voronoi_cell.first.x(), voronoi_cell.first.y()};
+            std::vector<double> point = {CGAL::to_double(voronoi_cell.first.x()),
+                                         CGAL::to_double(voronoi_cell.first.y())};
             cell["point"] = point;
             cell["point"].SetStyle(YAML::EmitterStyle::Flow);
 
@@ -77,12 +78,6 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
             YAML::Node cell;
 
             exportVoronoiCellData(voronoi_cell, cell);
-
-            // std::vector<double> point = {voronoi_cell.first.x(), voronoi_cell.first.y()};
-            // cell["point"] = point;
-            // cell["point"].SetStyle(YAML::EmitterStyle::Flow);
-
-            // exportPolygonData(voronoi_cell.second, "polygon", cell);
             exportPolygonData(buffered_voronoi_cell.second, "offset_polygon", cell);
 
             diagram.push_back(cell);
@@ -99,7 +94,8 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
     void Manager::exportVoronoiCellData(
         const VoronoiCell &_voronoi_cell, YAML::Node &_node)
     {
-        std::vector<double> point = {_voronoi_cell.first.x(), _voronoi_cell.first.y()};
+        std::vector<double> point = {CGAL::to_double(_voronoi_cell.first.x()),
+                                     CGAL::to_double(_voronoi_cell.first.y())};
         _node["point"] = point;
         _node["point"].SetStyle(YAML::EmitterStyle::Flow);
 
@@ -120,15 +116,18 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         {
             YAML::Node edge;
 
-            std::vector<double> from = {viter->x(), viter->y()};
+            std::vector<double> from = {CGAL::to_double(viter->x()),
+                                        CGAL::to_double(viter->y())};
             edge["from"] = from;
             edge["from"].SetStyle(YAML::EmitterStyle::Flow);
 
             std::vector<double> to;
             if (viter + 1 != _polygon.vertices_end())
-                to = {(viter + 1)->x(), (viter + 1)->y()};
+                to = {CGAL::to_double((viter + 1)->x()),
+                      CGAL::to_double((viter + 1)->y())};
             else
-                to = {_polygon.vertices_begin()->x(), _polygon.vertices_begin()->y()};
+                to = {CGAL::to_double(_polygon.vertices_begin()->x()),
+                      CGAL::to_double(_polygon.vertices_begin()->y())};
             edge["to"] = to;
             edge["to"].SetStyle(YAML::EmitterStyle::Flow);
 

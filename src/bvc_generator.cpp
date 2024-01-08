@@ -8,15 +8,11 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
         for (const auto &point : _points)
             vd_.insert(point);
-
-        std::cout << "Buffered Voronoi Diagram Generator has been initilized." << std::endl;
     }
 
     Generator::~Generator()
     {
         reset();
-
-        std::cout << "Buffered Voronoi Diagram Generator has been terminated." << std::endl;
     }
 
     bool Generator::get_polygon(const Point_2 &_point, CGAL::Polygon_2<Kernel> &_poly)
@@ -48,8 +44,8 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
             CGAL::Polygon_2<Kernel> box_poly;
             {
-                double offset_x = (bbox_.xmax() - bbox_.xmin()) / 2;
-                double offset_y = (bbox_.ymax() - bbox_.ymin()) / 2;
+                auto offset_x = CGAL::abs(bbox_.xmax() - bbox_.xmin()) / 2;
+                auto offset_y = CGAL::abs(bbox_.ymax() - bbox_.ymin()) / 2;
 
                 box_poly.push_back(Point_2(bbox_.xmin() - offset_x, bbox_.ymin() - offset_y));
                 box_poly.push_back(Point_2(bbox_.xmax() + offset_x, bbox_.ymin() - offset_y));
@@ -75,7 +71,21 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
     {
         assert(_poly.is_counterclockwise_oriented());
 
-        auto ss = CGAL::create_interior_straight_skeleton_2(_poly);
+        // To get a buffered voronoi cell, CGAL::create_interior_straight_skeleton_2 should be used.
+        // However, to use CGAL::create_interior_straight_skeleton_2, inexact_kernel should be used.
+        // See: https://doc.cgal.org/latest/Straight_skeleton_2/group__PkgStraightSkeleton2SkeletonFunctions.html
+        typedef CGAL::Exact_predicates_inexact_constructions_kernel InExact_Kernel;
+        typedef CGAL::Delaunay_triangulation_2<InExact_Kernel> InExact_DT;
+        typedef CGAL::Delaunay_triangulation_adaptation_traits_2<InExact_DT> InExact_AT;
+        typedef InExact_AT::Point_2 InExact_Point_2;
+
+        CGAL::Polygon_2<InExact_Kernel> twin_poly;
+        for (auto viter = _poly.vertices_begin(); viter != _poly.vertices_end(); ++viter)
+        {
+            twin_poly.push_back(InExact_Point_2(CGAL::to_double(viter->x()), CGAL::to_double(viter->y())));
+        }
+
+        auto ss = CGAL::create_interior_straight_skeleton_2(twin_poly);
 
         auto offset_polygon = CGAL::create_offset_polygons_2<CGAL::Polygon_2<Kernel>>(_offset, *ss);
 

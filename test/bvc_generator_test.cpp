@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <iostream>
+#include <random>
 
 #include "subgoal_generator/bvc_generator.h"
 #include "subgoal_generator/bvc_manager.h"
@@ -16,20 +17,18 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 		std::vector<Site_2> points;
 		points.clear();
 
-		points.push_back(Site_2(0, 0));
-		points.push_back(Site_2(10, 0));
-		points.push_back(Site_2(10, 10));
-		points.push_back(Site_2(0, 10));
-		points.push_back(Site_2(20, 0));
-		points.push_back(Site_2(30, 0));
-		points.push_back(Site_2(35, 0));
-		points.push_back(Site_2(15, 15));
-		points.push_back(Site_2(10, 15));
-		points.push_back(Site_2(30, 32.5));
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<double> position_dis(-5, 5);
+
+		for (int i = 0; i < 4; ++i)
+		{
+			points.push_back(Site_2(position_dis(gen), position_dis(gen)));
+		}
 
 		Generator::UniquePtr bvc_generator = std::make_unique<Generator>(points);
 
-		Manager::VoronoiDiagram voronoi_diagram;
+		VoronoiDiagram voronoi_diagram;
 
 		for (const auto &point : points)
 		{
@@ -50,8 +49,6 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
 		Manager::exportVoronoiDiagram(
 			voronoi_diagram, "result", "voronoi");
-
-		EXPECT_EQ(0, 0);
 	}
 
 	TEST(BVCGenTest, BVD_GEN_TEST)
@@ -72,8 +69,8 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
 		Generator::UniquePtr bvc_generator = std::make_unique<Generator>(points);
 
-		Manager::VoronoiDiagram voronoi_diagram;
-		Manager::VoronoiDiagram buffered_voronoi_diagram;
+		VoronoiDiagram voronoi_diagram;
+		VoronoiDiagram buffered_voronoi_diagram;
 
 		for (const auto &point : points)
 		{

@@ -1,28 +1,13 @@
 #pragma once
 
-// standard includes
 #include <iostream>
 #include <fstream>
 #include <memory>
 #include <filesystem>
 
-// yaml-cpp includes
-// Need to install libyaml-cpp-dev
 #include <yaml-cpp/yaml.h>
 
-// CGAL includes
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Delaunay_triangulation_2.h>
-#include <CGAL/Delaunay_triangulation_adaptation_traits_2.h>
-#include <CGAL/Polygon_2.h>
-
-// typedefs for defining the adaptor
-typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
-typedef CGAL::Delaunay_triangulation_2<Kernel> DT;
-typedef CGAL::Delaunay_triangulation_adaptation_traits_2<DT> AT;
-
-// typedef for the result type of the point location
-typedef AT::Point_2 Point_2;
+#include "subgoal_generator/bvc_generator.h"
 
 namespace SubgoalGenerator::BufferedVoronoiDiagram
 {
@@ -31,10 +16,6 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
     public:
         typedef std::unique_ptr<Manager> UniquePtr;
         typedef std::shared_ptr<Manager> SharedPtr;
-
-    public:
-        typedef std::pair<Point_2, CGAL::Polygon_2<Kernel>> VoronoiCell;
-        typedef std::vector<VoronoiCell> VoronoiDiagram;
 
     public:
         static void printPolygon(const CGAL::Polygon_2<Kernel> &_polygon);
@@ -53,7 +34,7 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
             const VoronoiDiagram &_voronoi_diagram,
             const VoronoiDiagram &_buffered_voronoi_diagram,
             std::string _dirName = "result",
-            std::string _fileName = "voronoi");
+            std::string _fileName = "buffered_voronoi");
 
         static void exportVoronoiCellData(
             const VoronoiCell &_voronoi_cell, YAML::Node &_node);

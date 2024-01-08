@@ -8,6 +8,7 @@ CMakeFiles/src_lib.dir/src/agent.cpp.o: ../src/agent.cpp
 CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o: ../include/subgoal_generator/bvc_generator.h
 CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o: ../src/bvc_generator.cpp
 
+CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o: ../include/subgoal_generator/bvc_generator.h
 CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o: ../include/subgoal_generator/bvc_manager.h
 CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o: ../src/bvc_manager.cpp
 
