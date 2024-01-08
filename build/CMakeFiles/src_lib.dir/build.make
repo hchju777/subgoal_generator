@@ -122,9 +122,35 @@ CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/changju/cpp_ws/subgoal_generator/src/dynamic_graph_manager.cpp -o CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.s
 
+CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o: CMakeFiles/src_lib.dir/flags.make
+CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o: ../src/subgoal_generator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o -c /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator.cpp
+
+CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator.cpp > CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.i
+
+CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator.cpp -o CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.s
+
+CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.o: CMakeFiles/src_lib.dir/flags.make
+CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.o: ../src/subgoal_generator_manager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.o -c /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator_manager.cpp
+
+CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator_manager.cpp > CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.i
+
+CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator_manager.cpp -o CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.s
+
 CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o: CMakeFiles/src_lib.dir/flags.make
 CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o: ../src/velocity_obstacle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o -c /home/changju/cpp_ws/subgoal_generator/src/velocity_obstacle.cpp
 
 CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.i: cmake_force
@@ -137,7 +163,7 @@ CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.s: cmake_force
 
 CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.o: CMakeFiles/src_lib.dir/flags.make
 CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.o: ../src/velocity_obstacle_manager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.o -c /home/changju/cpp_ws/subgoal_generator/src/velocity_obstacle_manager.cpp
 
 CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.i: cmake_force
@@ -155,6 +181,8 @@ src_lib_OBJECTS = \
 "CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o" \
 "CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o" \
 "CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o" \
+"CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o" \
+"CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.o" \
 "CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o" \
 "CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.o"
 
@@ -166,11 +194,13 @@ libsrc_lib.a: CMakeFiles/src_lib.dir/src/bvc_generator.cpp.o
 libsrc_lib.a: CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o
 libsrc_lib.a: CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o
 libsrc_lib.a: CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o
+libsrc_lib.a: CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o
+libsrc_lib.a: CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.o
 libsrc_lib.a: CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o
 libsrc_lib.a: CMakeFiles/src_lib.dir/src/velocity_obstacle_manager.cpp.o
 libsrc_lib.a: CMakeFiles/src_lib.dir/build.make
 libsrc_lib.a: CMakeFiles/src_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library libsrc_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/changju/cpp_ws/subgoal_generator/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX static library libsrc_lib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/src_lib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/src_lib.dir/link.txt --verbose=$(VERBOSE)
 

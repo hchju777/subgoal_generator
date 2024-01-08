@@ -7,4 +7,5 @@
 include("/home/changju/cpp_ws/subgoal_generator/build/bvc_gen_test[1]_include.cmake")
 include("/home/changju/cpp_ws/subgoal_generator/build/dynamic_graph_test[1]_include.cmake")
 include("/home/changju/cpp_ws/subgoal_generator/build/velocity_obstacle_test[1]_include.cmake")
+include("/home/changju/cpp_ws/subgoal_generator/build/subgoal_generator_test[1]_include.cmake")
 subdirs("_deps/googletest-build")

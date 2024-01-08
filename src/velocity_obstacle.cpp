@@ -2,16 +2,10 @@
 
 namespace SubgoalGenerator::VelocityObstacle
 {
-    Generator::Generator()
-    {
-        std::cout << "Velocity Obstacle Generator has been initilized." << std::endl;
-    }
-
+    Generator::Generator() {}
     Generator::~Generator()
     {
         clearAgents();
-
-        std::cout << "Velocity Obstacle Generator has been terminated." << std::endl;
     }
 
     bool Generator::updateVOCones(std::string _name)
@@ -93,6 +87,9 @@ namespace SubgoalGenerator::VelocityObstacle
 
         for (const auto &adjPair : adj_list)
         {
+            if (not(agents_.contains(adjPair.first)))
+                continue;
+
             Eigen::Vector2d position = agents_[adjPair.first]->pose().position();
 
             for (const auto &neighbor : adjPair.second)

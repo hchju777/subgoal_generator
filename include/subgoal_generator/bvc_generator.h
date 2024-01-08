@@ -73,7 +73,7 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         bool get_polygon(const Point_2 &_point, CGAL::Polygon_2<Kernel> &_poly);
 
     public:
-        void convert_to_bvc(CGAL::Polygon_2<Kernel> &_poly, double _offset);
+        bool convert_to_bvc(CGAL::Polygon_2<Kernel> &_poly, double _offset);
 
     public:
         Generator &operator=(const Generator &_rhs)

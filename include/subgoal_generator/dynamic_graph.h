@@ -19,6 +19,13 @@ namespace SubgoalGenerator::DynamicGraph
     public:
         Graph();
 
+        Graph(const Graph &_graph)
+        {
+            vertices_ = _graph.vertices_;
+            adj_list_ = _graph.adj_list_;
+            adj_priority_list_ = _graph.adj_priority_list_;
+        }
+
         ~Graph();
 
     public:
@@ -29,6 +36,19 @@ namespace SubgoalGenerator::DynamicGraph
         std::stack<std::string> topologicalSort();
 
         std::list<Vertices> generateGroupList();
+
+    public:
+        Graph &operator=(const Graph &_rhs)
+        {
+            if (&_rhs != this)
+            {
+                vertices_ = _rhs.vertices_;
+                adj_list_ = _rhs.adj_list_;
+                adj_priority_list_ = _rhs.adj_priority_list_;
+            }
+
+            return *this;
+        }
 
     public:
         const std::map<std::string, Vertex> vertices() const

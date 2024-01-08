@@ -67,7 +67,7 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         return false;
     }
 
-    void Generator::convert_to_bvc(CGAL::Polygon_2<Kernel> &_poly, double _offset)
+    bool Generator::convert_to_bvc(CGAL::Polygon_2<Kernel> &_poly, double _offset)
     {
         assert(_poly.is_counterclockwise_oriented());
 
@@ -91,7 +91,12 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
         assert(offset_polygon.size() == 1);
 
+        if (offset_polygon.empty())
+            return false;
+    
         _poly = *offset_polygon.front();
+        
+        return true;
     }
 
     Kernel::Segment_2 Generator::convert_to_seg(const CGAL::Object _seg_obj, bool _outgoing)

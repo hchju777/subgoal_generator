@@ -5,13 +5,10 @@ namespace SubgoalGenerator::DynamicGraph
     Graph::Graph()
     {
         reset();
-
-        std::cout << "Graph has been initilized." << std::endl;
     }
 
     Graph::~Graph()
     {
-        std::cout << "Graph has been terminated." << std::endl;
     }
 
     void Graph::addVertex(const Vertex &_newVertex, double _range)

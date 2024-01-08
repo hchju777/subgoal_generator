@@ -1,0 +1,5 @@
+if(EXISTS "/home/changju/cpp_ws/subgoal_generator/build/subgoal_generator_test[1]_tests.cmake")
+  include("/home/changju/cpp_ws/subgoal_generator/build/subgoal_generator_test[1]_tests.cmake")
+else()
+  add_test(subgoal_generator_test_NOT_BUILT subgoal_generator_test_NOT_BUILT)
+endif()

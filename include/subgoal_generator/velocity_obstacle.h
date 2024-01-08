@@ -21,13 +21,28 @@ namespace SubgoalGenerator::VelocityObstacle
     public:
         Generator();
 
+        Generator(const Generator &_generator)
+        {
+            agents_ = _generator.agents_;
+        }
+
         ~Generator();
 
     public:
         bool updateVOCones(std::string _name);
 
     public:
+        std::map<std::string, Agent *> agents() { return agents_; }
         const std::map<std::string, Agent *> agents() const { return agents_; }
+
+    public:
+        Generator &operator=(const Generator &_rhs)
+        {
+            if (&_rhs != this)
+                agents_ = _rhs.agents_;
+
+            return *this;
+        }
 
     public:
         static void toAgent(std::string _name, const std::map<std::string, Vertex> &_vertices, Agent *_agent);
