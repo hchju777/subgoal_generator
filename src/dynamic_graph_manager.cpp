@@ -19,8 +19,6 @@ namespace SubgoalGenerator::DynamicGraph
         if (_vertices.empty())
             return;
 
-        std::cout.precision(3);
-
         std::cout << "<vertices>" << std::endl;
         for (const auto &vertexPair : _vertices)
             std::cout << "\t o " << vertexPair.second << std::endl;
@@ -30,8 +28,6 @@ namespace SubgoalGenerator::DynamicGraph
     {
         if (_adj_list.empty())
             return;
-
-        std::cout.precision(3);
 
         std::cout << "<adjacent list>" << std::endl;
         for (const auto &adjPair : _adj_list)
@@ -49,8 +45,6 @@ namespace SubgoalGenerator::DynamicGraph
     {
         if (_adj_priority_list.empty())
             return;
-
-        std::cout.precision(3);
 
         std::cout << "<adjacent priority list>" << std::endl;
         for (const auto &adjPair : _adj_priority_list)

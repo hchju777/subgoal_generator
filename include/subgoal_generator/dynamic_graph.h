@@ -28,6 +28,8 @@ namespace SubgoalGenerator::DynamicGraph
 
         std::stack<std::string> topologicalSort();
 
+        std::list<Vertices> generateGroupList();
+
     public:
         const std::map<std::string, Vertex> vertices() const
         {
@@ -51,6 +53,10 @@ namespace SubgoalGenerator::DynamicGraph
         void topologicalSortUtil(
             std::string _name, std::map<std::string, bool> &_visited,
             std::stack<std::string> &_stack);
+
+        void generateGroupListUtil(
+            std::string _name, std::map<std::string, bool> &_visited,
+            Vertices &_group);
 
     protected:
         std::map<std::string, Vertex> vertices_;

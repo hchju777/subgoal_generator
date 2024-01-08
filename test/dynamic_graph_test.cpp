@@ -23,6 +23,7 @@ namespace SubgoalGenerator
         int vertex_num = 9;
         double range = 5.0;
 
+        std::cout.precision(3);
         std::cout << "====================================================================================================================" << std::endl;
         for (int idx = 0; idx < vertex_num; ++idx)
         {
@@ -53,6 +54,21 @@ namespace SubgoalGenerator
             std::cout << "====================================================================================================================" << std::endl;
         }
 
+        auto groupList = graph->generateGroupList();
+        std::cout << "<group list>" << std::endl;
+        for (const auto &group : groupList)
+        {
+            for (const auto &vertexPair : group)
+            {
+                const auto &vertex = vertexPair.second;
+
+                std::cout << "\t" << vertex << std::endl;
+            }
+            std::cout << std::endl;
+        }
+
+        std::cout << "====================================================================================================================" << std::endl;
+
         graph->reset();
         DynamicGraph::Manager::printGraph(graph);
         std::cout << "====================================================================================================================" << std::endl;
@@ -69,6 +85,7 @@ namespace SubgoalGenerator
         int vertex_num = 9;
         double range = 5.0;
 
+        std::cout.precision(3);
         std::cout << "====================================================================================================================" << std::endl;
         for (int idx = 0; idx < vertex_num; ++idx)
         {
@@ -82,6 +99,18 @@ namespace SubgoalGenerator
         DynamicGraph::Manager::printGraph(graph);
         std::cout << "====================================================================================================================" << std::endl;
 
+        auto groupList = graph->generateGroupList();
+        std::cout << "<group list>" << std::endl;
+        for (const auto &group : groupList)
+        {
+            for (const auto &vertexPair : group)
+            {
+                const auto &vertex = vertexPair.second;
+
+                std::cout << "\t" << vertex << std::endl;
+            }
+            std::cout << std::endl;
+        }
         DynamicGraph::Manager::exportDynamicGraph(graph);
     }
 

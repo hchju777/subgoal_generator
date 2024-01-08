@@ -100,4 +100,7 @@ namespace SubgoalGenerator::DynamicGraph
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
     }; // class Vertex
+
+    typedef std::map<std::string, Vertex> Vertices;
+
 } // namespace SubgoalGenerator

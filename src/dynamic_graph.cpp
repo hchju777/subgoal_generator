@@ -34,12 +34,6 @@ namespace SubgoalGenerator::DynamicGraph
                 if (_low.goalDistance() < _high.goalDistance())
                     return false;
 
-                // Eigen::Vector2d unitVec = _high.current().orientationUnitVec();
-                // Eigen::Vector2d diffVec = _low.current().position() - _high.current().position();
-
-                // if (unitVec.dot(diffVec) < 0)
-                //     return false;
-
                 return true;
             };
 
@@ -114,6 +108,36 @@ namespace SubgoalGenerator::DynamicGraph
         return stack;
     }
 
+    std::list<Vertices> Graph::generateGroupList()
+    {
+        std::list<Vertices> groupList;
+
+        std::map<std::string, bool> visited;
+        for (const auto &vertexPair : vertices_)
+        {
+            const std::string &vertexName = vertexPair.first;
+            visited.emplace(std::make_pair(vertexName, false));
+        }
+
+        std::stack<std::string> priority_graph = topologicalSort();
+
+        while (not(priority_graph.empty()))
+        {
+            auto vertexName = priority_graph.top();
+            priority_graph.pop();
+
+            if (visited[vertexName] == true)
+                continue;
+
+            Vertices group;
+            generateGroupListUtil(vertexName, visited, group);
+
+            groupList.emplace_back(group);
+        }
+
+        return groupList;
+    }
+
     void Graph::reset()
     {
         std::map<std::string, std::list<Vertex>> empty_graph;
@@ -142,5 +166,20 @@ namespace SubgoalGenerator::DynamicGraph
         }
 
         _stack.push(_name);
+    }
+
+    void Graph::generateGroupListUtil(
+        std::string _name, std::map<std::string, bool> &_visited,
+        Vertices &_group)
+    {
+        _visited[_name] = true;
+
+        for (const auto &neighbor : adj_list_[_name])
+        {
+            if (_visited[neighbor.name()] == false)
+                generateGroupListUtil(neighbor.name(), _visited, _group);
+        }
+
+        _group.emplace(_name, vertices_[_name]);
     }
 } // namespace SubgoalGenerator

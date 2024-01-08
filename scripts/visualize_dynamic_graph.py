@@ -51,9 +51,10 @@ def show_edges(vertices, adj_priority_list, colors):
     for adj_priority in adj_priority_list:
         col = colors[adj_priority["higher"]]
         high_current = getCurrentPose(adj_priority["higher"], vertices)
-        for low in adj_priority["lower"]:
-            low_current = getCurrentPose(low, vertices)
-            plt.plot([high_current[0], low_current[0]], [high_current[1], low_current[1]], '-', c=col)
+        if "lower" in adj_priority:
+            for low in adj_priority["lower"]:
+                low_current = getCurrentPose(low, vertices)
+                plt.plot([high_current[0], low_current[0]], [high_current[1], low_current[1]], '-', c=col)
         
 def getCurrentPose(name, vertices):
     for vertex in vertices:
