@@ -4,4 +4,6 @@ add_test( SubgoalGenTest.FindSubgoal_TEST /home/changju/cpp_ws/subgoal_generator
 set_tests_properties( SubgoalGenTest.FindSubgoal_TEST PROPERTIES WORKING_DIRECTORY /home/changju/cpp_ws/subgoal_generator/build)
 add_test( SubgoalGenTest.FindGarrison_TEST /home/changju/cpp_ws/subgoal_generator/build/subgoal_generator_test [==[--gtest_filter=SubgoalGenTest.FindGarrison_TEST]==] --gtest_also_run_disabled_tests)
 set_tests_properties( SubgoalGenTest.FindGarrison_TEST PROPERTIES WORKING_DIRECTORY /home/changju/cpp_ws/subgoal_generator/build)
-set( subgoal_generator_test_TESTS SubgoalGenTest.SubgoalGen_TEST SubgoalGenTest.FindSubgoal_TEST SubgoalGenTest.FindGarrison_TEST)
+add_test( SubgoalGenTest.TruncatedPolyGen_TEST /home/changju/cpp_ws/subgoal_generator/build/subgoal_generator_test [==[--gtest_filter=SubgoalGenTest.TruncatedPolyGen_TEST]==] --gtest_also_run_disabled_tests)
+set_tests_properties( SubgoalGenTest.TruncatedPolyGen_TEST PROPERTIES WORKING_DIRECTORY /home/changju/cpp_ws/subgoal_generator/build)
+set( subgoal_generator_test_TESTS SubgoalGenTest.SubgoalGen_TEST SubgoalGenTest.FindSubgoal_TEST SubgoalGenTest.FindGarrison_TEST SubgoalGenTest.TruncatedPolyGen_TEST)

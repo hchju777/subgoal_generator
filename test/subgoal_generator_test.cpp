@@ -235,6 +235,37 @@ namespace SubgoalGenerator
         }
     }
 
+    TEST(SubgoalGenTest, TruncatedPolyGen_TEST)
+    {
+        std::vector<Point_2> polygon_vertices = {
+            Point_2(-2, -2),
+            Point_2(2, -2),
+            Point_2(2, 2),
+            Point_2(-2, 2)};
+
+        CGAL::Polygon_2<Kernel> polygon(polygon_vertices.begin(), polygon_vertices.end());
+
+        Agent::Cone cone1;
+        {
+            cone1.point_ = Eigen::Vector2d(0, 0);
+            cone1.left_direction_ = Eigen::Vector2d(0, 1);
+            cone1.right_direction_ = Eigen::Vector2d(1, 0);
+        }
+
+        Agent::Cone cone2;
+        {
+            cone2.point_ = Eigen::Vector2d(0, 0);
+            cone2.left_direction_ = Eigen::Vector2d(1, 0);
+            cone2.right_direction_ = Eigen::Vector2d(0, 1);
+        }
+
+        SubgoalGenerator::Generator::UniquePtr subgoal_generator;
+        CGAL::Polygon_2<Kernel> truncated_polygon;
+        EXPECT_EQ(subgoal_generator->get_truncated_polygon(polygon, {cone1}, truncated_polygon), true);
+        EXPECT_EQ(subgoal_generator->get_truncated_polygon(polygon, {cone2}, truncated_polygon), true);
+        EXPECT_EQ(subgoal_generator->get_truncated_polygon(polygon, {cone1, cone2}, truncated_polygon), false);
+    }
+
 } // namespace SubgoalGenerator
 
 int main(int argc, char **argv)

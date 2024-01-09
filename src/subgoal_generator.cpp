@@ -114,6 +114,41 @@ namespace SubgoalGenerator
         return true;
     }
 
+    bool Generator::get_truncated_polygon(
+        const CGAL::Polygon_2<Kernel> &_cell, const std::vector<Agent::Cone> &_cones,
+        CGAL::Polygon_2<Kernel> &_truncated_polygon)
+    {
+        _truncated_polygon = _cell;
+
+        for (const auto &cone : _cones)
+        {
+            CGAL::Polygon_2<Kernel> cone_polygon;
+            cone_polygon.push_back(Point_2(cone.point_.x(), cone.point_.y()));
+
+            double right_angle = std::atan2(cone.right_direction_.y(), cone.right_direction_.x());
+            double left_angle = std::atan2(cone.left_direction_.y(), cone.left_direction_.x());
+            left_angle = right_angle < left_angle ? left_angle : left_angle + 2 * M_PI;
+
+            for (double angle = right_angle-1e-8; angle < left_angle; angle = angle + M_PI / 18)
+            {
+                cone_polygon.push_back(Point_2(cone.point_.x() + 1000 * std::cos(angle),
+                                               cone.point_.y() + 1000 * std::sin(angle)));
+            }
+            cone_polygon.push_back(Point_2(cone.point_.x() + 1000 * std::cos(left_angle + 1e-8),
+                                           cone.point_.y() + 1000 * std::sin(left_angle + 1e-8)));
+
+            std::list<CGAL::Polygon_with_holes_2<Kernel>> truncated_poly_w_holes;
+            CGAL::difference(_truncated_polygon, cone_polygon, std::back_inserter(truncated_poly_w_holes));
+
+            if (truncated_poly_w_holes.size() == 1)
+                _truncated_polygon = truncated_poly_w_holes.front().outer_boundary();
+            else
+                return false;
+        }
+
+        return true;
+    }
+
     std::list<CGAL::Polygon_2<Kernel>> Generator::get_convex_subPolygons(const CGAL::Polygon_2<Kernel> &_cell)
     {
         Traits::Polygon_2 concave_polygon;

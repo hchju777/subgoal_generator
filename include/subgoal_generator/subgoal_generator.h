@@ -83,6 +83,10 @@ namespace SubgoalGenerator
 
         bool updateVOCones(const DynamicGraph::Vertices &_group);
 
+        bool get_truncated_polygon(
+            const CGAL::Polygon_2<Kernel> &_polygon, const std::vector<Agent::Cone> &_cones,
+            CGAL::Polygon_2<Kernel> &_truncated_polygon);
+
         std::list<CGAL::Polygon_2<Kernel>> get_convex_subPolygons(const CGAL::Polygon_2<Kernel> &_cell);
 
         bool find_subgoal(
