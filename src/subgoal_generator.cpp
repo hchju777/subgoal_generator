@@ -27,6 +27,10 @@ namespace SubgoalGenerator
         agents_.swap(agents_);
         agents_.clear();
 
+        std::vector<BufferedVoronoiDiagram::Generator::UniquePtr> empty_groups;
+        groups_.swap(empty_groups);
+        groups_.clear();
+
         graph_->reset();
     }
 
@@ -48,6 +52,8 @@ namespace SubgoalGenerator
 
                 return false;
             }
+
+            agents_[vertex.name()].groupID() = groups_.size();
 
             points.push_back(Site_2(vertex.current().x(), vertex.current().y()));
         }
@@ -78,6 +84,8 @@ namespace SubgoalGenerator
             }
             _buffered_voronoi_diagram.emplace(vertex.name(), buffered_voronoi_cell);
         }
+
+        groups_.push_back(std::move(bvc_generator));
 
         return true;
     }
@@ -193,4 +201,161 @@ namespace SubgoalGenerator
             return false;
     }
 
+    bool Generator::find_garrison(std::string _invader, const Point_2 &_subgoal,
+                                  std::string &_garrison)
+    {
+        if (agents_.contains(_invader) or agents_[_invader].groupID() < 0 or agents_[_invader].groupID() >= groups_.size())
+        {
+            std::cerr << "Generator::find_garrison: "
+                      << "There is no agent named " << _invader << " or "
+                      << "the gropuID is invalid" << std::endl;
+            return false;
+        }
+
+        auto &bvc_generator = groups_[agents_[_invader].groupID()];
+
+        if (not(validate_subgoal(_invader, _subgoal)))
+        {
+            std::cerr << "Generator::find_garrison: "
+                      << "Invalid subgoal " << _subgoal << " for " << _invader << std::endl;
+            return false;
+        }
+
+        const Agent &invader = agents_[_invader];
+
+        Point_2 invader_position(invader.pose().x(), invader.pose().y()), garrison_point;
+        if (not(find_garrison_point_from_voronoi_diagram(invader_position, _subgoal, bvc_generator, garrison_point)))
+            return false;
+
+        return find_garrison_name(garrison_point, _invader, _garrison);
+    }
+
+    bool Generator::find_garrison_point_from_voronoi_diagram(
+        const Point_2 &_invader_point, const Point_2 &_subgoal,
+        const BufferedVoronoiDiagram::Generator::UniquePtr &_bvc_generator,
+        Point_2 &_garrison_point)
+    {
+        CGAL::Polygon_2<Kernel> vn_poly;
+        if (not(_bvc_generator->get_raw_voronoi_polygon(_subgoal, vn_poly)))
+            return false;
+
+        Kernel::Direction_2 subgoal_dir = Kernel::Ray_2(_invader_point, _subgoal).direction();
+        Point_2 subgoal_seg_end(_invader_point.x() + 1000 * subgoal_dir.dx(),
+                                _invader_point.y() + 1000 * subgoal_dir.dy());
+
+        Kernel::Segment_2 subgoal_seg(_invader_point, subgoal_seg_end);
+        for (size_t i = 0; i < vn_poly.size(); ++i)
+        {
+            Kernel::Segment_2 edge_seg(vn_poly[i], vn_poly[(i + 1) % vn_poly.size()]);
+
+            if (not(CGAL::intersection(edge_seg, subgoal_seg)))
+                continue;
+
+            if (not(find_garrison_point(_invader_point, edge_seg, _bvc_generator->vd(), _garrison_point)))
+                return false;
+
+            return not(is_in_the_same_face(_invader_point, _garrison_point, _bvc_generator));
+        }
+
+        std::cerr << "Generator::find_garrison_point_from_voronoi_diagram: "
+                  << "No edge does not intersect with a line from invader to subgoal" << std::endl;
+        return false;
+    }
+
+    bool Generator::find_garrison_point(
+        const Point_2 &_invader_point, const Kernel::Segment_2 &_edge_seg, const VD &_vd,
+        Point_2 &_garrison_point)
+    {
+        Point_2 norm_line_end(_invader_point.x() + _edge_seg.direction().dy(),
+                              _invader_point.y() - _edge_seg.direction().dx());
+        Kernel::Line_2 norm_line(_invader_point, norm_line_end);
+
+        const auto midpoint = CGAL::intersection(_edge_seg, norm_line);
+
+        if (const Point_2 *p = boost::get<Point_2>(&*midpoint))
+        {
+            auto dx = p->x() - _invader_point.x();
+            auto dy = p->y() - _invader_point.y();
+
+            Locate_result invader_lr = _vd.locate(_invader_point);
+            Locate_result garrison_lr = _vd.locate(Point_2(_invader_point.x() + 2 * dx, _invader_point.y() + 2 * dy));
+
+            if (invader_lr != garrison_lr)
+            {
+                Face_handle *garrison_fh = boost::get<Face_handle>(&garrison_lr);
+
+                if (not(garrison_fh))
+                    return false;
+
+                _garrison_point = (*garrison_fh)->dual()->point();
+
+                return true;
+            }
+        }
+
+        std::cerr << "Generator::find_garrison_point: "
+                  << "The edge and the normal line do not intersect at a point" << std::endl;
+        return false;
+    }
+
+    bool Generator::find_garrison_name(
+        const Point_2 &_garrison_point, const std::string _invader,
+        std::string &_garrison)
+    {
+        double min_distSqrt = std::numeric_limits<double>::max();
+        _garrison = std::string();
+
+        for (const auto &agentPair : agents_)
+        {
+            const Agent &agent = agentPair.second;
+
+            if (agent.groupID() != agents_[_invader].groupID())
+                continue;
+
+            if (agent.name() == _invader)
+                continue;
+
+            double dx = agent.pose().x() - CGAL::to_double(_garrison_point.x());
+            double dy = agent.pose().y() - CGAL::to_double(_garrison_point.y());
+
+            double distSqrt = dx * dx + dy * dy;
+            if (distSqrt < min_distSqrt)
+            {
+                min_distSqrt = distSqrt;
+                _garrison = agent.name();
+            }
+        }
+
+        if (_garrison != std::string())
+            return true;
+        else
+            return false;
+    }
+
+    bool Generator::validate_subgoal(std::string _agentName, const Point_2 &_subgoal)
+    {
+        if (agents_.contains(_agentName) or agents_[_agentName].groupID() < 0 or agents_[_agentName].groupID() >= groups_.size())
+        {
+            std::cerr << "Generator::validate_subgoal: "
+                      << "There is no agent named " << _agentName << " or "
+                      << "the gropuID is invalid" << std::endl;
+        }
+
+        const auto &agent = agents_[_agentName];
+        auto &bvc_generator = groups_[agent.groupID()];
+
+        return is_in_the_same_face(Point_2(agent.pose().x(), agent.pose().y()), _subgoal, bvc_generator);
+    }
+
+    bool Generator::is_in_the_same_face(const Point_2 &_p1, const Point_2 &_p2,
+                                        const BufferedVoronoiDiagram::Generator::UniquePtr &_bvc_generator)
+    {
+        Locate_result p1_lr = _bvc_generator->vd().locate(_p1);
+        Locate_result p2_lr = _bvc_generator->vd().locate(_p2);
+
+        Face_handle *p1_fh = boost::get<Face_handle>(&p1_lr);
+        Face_handle *p2_fh = boost::get<Face_handle>(&p2_lr);
+
+        return (p1_fh == p2_fh);
+    }
 } // namespace SubgoalGenerator

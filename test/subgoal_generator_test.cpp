@@ -182,6 +182,59 @@ namespace SubgoalGenerator
         }
     }
 
+    TEST(SubgoalGenTest, FindGarrison_TEST)
+    {
+        std::vector<Point_2> robot_positions = {
+            Point_2(0, 0),
+            Point_2(1, 0),
+            Point_2(1, 1),
+            Point_2(0, 1)};
+
+        std::vector<Point_2> subgoals = {
+            Point_2(-2, -2),
+            Point_2(0.25, 0),
+            Point_2(0.75, 0),
+            Point_2(0.75, 1),
+            Point_2(0.25, 1)};
+
+        std::vector<std::pair<bool, Point_2>> answers = {
+            {false, Point_2()},
+            {true, Point_2(1, 0)},
+            {true, Point_2(0, 0)},
+            {true, Point_2(0, 1)},
+            {true, Point_2(1, 1)}};
+
+        Generator::UniquePtr subgoal_generator;
+        BufferedVoronoiDiagram::Generator::UniquePtr bvc_generator =
+            std::make_unique<BufferedVoronoiDiagram::Generator>(robot_positions);
+
+        size_t answer_idx = 0;
+        for (const auto &subgoal : subgoals)
+        {
+            Point_2 current_position;
+
+            Locate_result lr = bvc_generator->vd().locate(subgoal);
+            if (Face_handle *f = boost::get<Face_handle>(&lr))
+            {
+                CGAL::Polygon_2<Kernel> vn_poly;
+                bvc_generator->get_raw_voronoi_polygon(subgoal, vn_poly);
+
+                //! Make a vector from current position to subgoal
+                current_position = (*f)->dual()->point();
+            }
+
+            Point_2 garrison_point;
+            bool answer_flag = subgoal_generator->find_garrison_point_from_voronoi_diagram(
+                current_position, subgoal, bvc_generator, garrison_point);
+
+            EXPECT_EQ(answer_flag, answers[answer_idx].first);
+            if (answer_flag)
+                EXPECT_EQ(garrison_point, answers[answer_idx].second);
+
+            ++answer_idx;
+        }
+    }
+
 } // namespace SubgoalGenerator
 
 int main(int argc, char **argv)

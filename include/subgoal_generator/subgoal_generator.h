@@ -89,10 +89,34 @@ namespace SubgoalGenerator
             const Point_2 &_goal, std::list<CGAL::Polygon_2<Kernel>> &_convex_subPolygons,
             Point_2 &_subgoal);
 
+        bool find_garrison(std::string _invader, const Point_2 &_subgoal,
+                           std::string &_garrison);
+
+        bool find_garrison_point_from_voronoi_diagram(
+            const Point_2 &_invader_point, const Point_2 &_subgoal,
+            const BufferedVoronoiDiagram::Generator::UniquePtr &_bvc_generator,
+            Point_2 &_garrison_point);
+
+    protected:
+        bool find_garrison_point(
+            const Point_2 &_invader_point, const Kernel::Segment_2 &_edge_seg, const VD &_vd,
+            Point_2 &_garrison_point);
+
+        bool find_garrison_name(
+            const Point_2 &_garrison_point, const std::string _invader,
+            std::string &_garrison);
+
+        bool validate_subgoal(std::string _agentName, const Point_2 &_subgoal);
+
+        bool is_in_the_same_face(const Point_2 &_p1, const Point_2 &_p2,
+                             const BufferedVoronoiDiagram::Generator::UniquePtr &_bvc_generator);
+
     protected:
         Agents agents_;
 
         DynamicGraph::Graph::SharedPtr graph_{std::make_shared<DynamicGraph::Graph>()};
+
+        std::vector<BufferedVoronoiDiagram::Generator::UniquePtr> groups_;
 
     protected:
         double communication_range_{5.0};

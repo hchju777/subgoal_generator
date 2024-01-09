@@ -17,6 +17,35 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
     bool Generator::get_polygon(const Point_2 &_point, CGAL::Polygon_2<Kernel> &_poly)
     {
+        CGAL::Polygon_2<Kernel> vn_poly;
+
+        if (not(get_raw_voronoi_polygon(_point, vn_poly)))
+            return false;
+
+        CGAL::Polygon_2<Kernel> box_poly;
+        {
+            auto offset_x = CGAL::abs(bbox_.xmax() - bbox_.xmin()) / 2;
+            auto offset_y = CGAL::abs(bbox_.ymax() - bbox_.ymin()) / 2;
+
+            box_poly.push_back(Point_2(bbox_.xmin() - offset_x, bbox_.ymin() - offset_y));
+            box_poly.push_back(Point_2(bbox_.xmax() + offset_x, bbox_.ymin() - offset_y));
+            box_poly.push_back(Point_2(bbox_.xmax() + offset_x, bbox_.ymax() + offset_y));
+            box_poly.push_back(Point_2(bbox_.xmin() - offset_x, bbox_.ymax() + offset_y));
+        }
+
+        std::list<CGAL::Polygon_with_holes_2<Kernel>> cropped_vn_poly;
+        CGAL::intersection(vn_poly, box_poly, std::back_insert_iterator(cropped_vn_poly));
+
+        assert(cropped_vn_poly.size() == 1);
+
+        CGAL::Polygon_with_holes_2<Kernel> &poly_w_holes = cropped_vn_poly.front();
+        _poly = poly_w_holes.outer_boundary();
+
+        return true;
+    }
+
+    bool Generator::get_raw_voronoi_polygon(const Point_2 &_point, CGAL::Polygon_2<Kernel> &_poly)
+    {
         assert(is_valid());
 
         Locate_result lr = vd_.locate(_point);
@@ -26,40 +55,20 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
             Ccb_halfedge_circulator ec_start = (*f)->ccb();
             Ccb_halfedge_circulator ec = ec_start;
 
-            CGAL::Polygon_2<Kernel> vn_poly;
             do
             {
                 const CGAL::Object cur_seg_dual = vd_.dual().dual(ec->dual());
 
                 const auto cur_seg = convert_to_seg(cur_seg_dual, ec->has_target());
-                vn_poly.push_back(cur_seg.source());
+                _poly.push_back(cur_seg.source());
 
                 if (not(ec->has_target()))
                 {
                     const CGAL::Object next_seg_dual = vd_.dual().dual(ec->next()->dual());
                     const auto next_seg = convert_to_seg(next_seg_dual, ec->next()->has_target());
-                    vn_poly.push_back(next_seg.target());
+                    _poly.push_back(next_seg.target());
                 }
             } while (++ec != ec_start);
-
-            CGAL::Polygon_2<Kernel> box_poly;
-            {
-                auto offset_x = CGAL::abs(bbox_.xmax() - bbox_.xmin()) / 2;
-                auto offset_y = CGAL::abs(bbox_.ymax() - bbox_.ymin()) / 2;
-
-                box_poly.push_back(Point_2(bbox_.xmin() - offset_x, bbox_.ymin() - offset_y));
-                box_poly.push_back(Point_2(bbox_.xmax() + offset_x, bbox_.ymin() - offset_y));
-                box_poly.push_back(Point_2(bbox_.xmax() + offset_x, bbox_.ymax() + offset_y));
-                box_poly.push_back(Point_2(bbox_.xmin() - offset_x, bbox_.ymax() + offset_y));
-            }
-
-            std::list<CGAL::Polygon_with_holes_2<Kernel>> cropped_vn_poly;
-            CGAL::intersection(vn_poly, box_poly, std::back_insert_iterator(cropped_vn_poly));
-
-            assert(cropped_vn_poly.size() == 1);
-
-            CGAL::Polygon_with_holes_2<Kernel> &poly_w_holes = cropped_vn_poly.front();
-            _poly = poly_w_holes.outer_boundary();
 
             return true;
         }
@@ -91,9 +100,9 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
 
         if (offset_polygon.empty())
             return false;
-    
+
         _poly = *offset_polygon.front();
-        
+
         return true;
     }
 
