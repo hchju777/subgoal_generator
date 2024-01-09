@@ -75,9 +75,7 @@ namespace SubgoalGenerator::BufferedVoronoiDiagram
         // However, to use CGAL::create_interior_straight_skeleton_2, inexact_kernel should be used.
         // See: https://doc.cgal.org/latest/Straight_skeleton_2/group__PkgStraightSkeleton2SkeletonFunctions.html
         typedef CGAL::Exact_predicates_inexact_constructions_kernel InExact_Kernel;
-        typedef CGAL::Delaunay_triangulation_2<InExact_Kernel> InExact_DT;
-        typedef CGAL::Delaunay_triangulation_adaptation_traits_2<InExact_DT> InExact_AT;
-        typedef InExact_AT::Point_2 InExact_Point_2;
+        typedef InExact_Kernel::Point_2 InExact_Point_2;
 
         CGAL::Polygon_2<InExact_Kernel> twin_poly;
         for (auto viter = _poly.vertices_begin(); viter != _poly.vertices_end(); ++viter)

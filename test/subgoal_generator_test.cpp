@@ -130,6 +130,58 @@ namespace SubgoalGenerator
         }
     }
 
+    TEST(SubgoalGenTest, FindSubgoal_TEST)
+    {
+        Generator::SharedPtr subgoal_generator;
+        subgoal_generator = std::make_shared<Generator>();
+
+        //! Input
+        // Define the goal point
+        const std::vector<Point_2> goals = {
+            Point_2(2, 2),
+            Point_2(4, 4),
+            Point_2(7, 0),
+            Point_2(10, 4),
+            Point_2(6, 10),
+            Point_2(0, 7),
+            Point_2(6, 6)};
+
+        const std::vector<Point_2> subgoals = {
+            Point_2(6, 2),
+            Point_2(5, 5),
+            Point_2(7, 2),
+            Point_2(8, 4),
+            Point_2(6, 8),
+            Point_2(2, 7),
+            Point_2(6, 6)};
+
+        // Define the polygon vertices
+        const std::vector<Point_2> polygonVertices = {
+            Point_2(2, 6),
+            Point_2(4, 6),
+            Point_2(6, 4),
+            Point_2(6, 2),
+            Point_2(8, 2),
+            Point_2(8, 8),
+            Point_2(2, 8)};
+
+        const CGAL::Polygon_2<Kernel> polygon(polygonVertices.begin(), polygonVertices.end());
+
+        //! Process
+        std::list<CGAL::Polygon_2<Kernel>> convex_subPolygons = subgoal_generator->get_convex_subPolygons(polygon);
+
+        for (size_t i = 0; i < goals.size(); ++i)
+        {
+            Point_2 subgoal;
+
+            const Point_2 &goal = goals[i];
+            const Point_2 &subgoal_answer = subgoals[i];
+
+            EXPECT_EQ(subgoal_generator->find_subgoal(goal, convex_subPolygons, subgoal), true);
+            EXPECT_EQ(subgoal, subgoal_answer);
+        }
+    }
+
 } // namespace SubgoalGenerator
 
 int main(int argc, char **argv)

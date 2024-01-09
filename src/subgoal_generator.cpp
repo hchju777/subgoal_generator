@@ -106,4 +106,91 @@ namespace SubgoalGenerator
         return true;
     }
 
+    std::list<CGAL::Polygon_2<Kernel>> Generator::get_convex_subPolygons(const CGAL::Polygon_2<Kernel> &_cell)
+    {
+        Traits::Polygon_2 concave_polygon;
+
+        std::size_t idx = 0;
+        for (auto viter = _cell.vertices_begin(); viter != _cell.vertices_end(); ++viter)
+        {
+            auto foo = Traits::Point_2(*viter);
+            concave_polygon.push_back(foo);
+        }
+
+        std::list<Traits::Polygon_2> convex_subPolygons;
+        CGAL::approx_convex_partition_2(concave_polygon.vertices_begin(), concave_polygon.vertices_end(),
+                                        std::back_inserter(convex_subPolygons));
+
+        std::list<CGAL::Polygon_2<Kernel>> results;
+        for (const auto &poly : convex_subPolygons)
+        {
+            CGAL::Polygon_2<Kernel> polygon;
+            for (const auto &p : poly.container())
+                polygon.push_back(p);
+
+            results.emplace_back(polygon);
+        }
+
+        return results;
+    }
+
+    bool Generator::find_subgoal(
+        const Point_2 &_goal, std::list<CGAL::Polygon_2<Kernel>> &_convex_subPolygons,
+        Point_2 &_subgoal)
+    {
+        double min_objective_function = std::numeric_limits<double>::max();
+
+        for (const auto &subPolygon : _convex_subPolygons)
+        {
+            Program qp(CGAL::SMALLER, false, 0, false, 0);
+
+            const int X = 0;
+            const int Y = 1;
+
+            // Minimize: (x - goal.x)^2 + (y - goal.y)^2
+            qp.set_d(X, X, 2);
+            qp.set_d(Y, Y, 2);
+            qp.set_c(X, -2 * CGAL::to_double(_goal.x()));
+            qp.set_c(Y, -2 * CGAL::to_double(_goal.y()));
+            qp.set_c0(CGAL::to_double(_goal.x() * _goal.x() + _goal.y() * _goal.y()));
+
+            // Add linear inequalities to represent polygon edges
+            for (std::size_t i = 0; i < subPolygon.size(); ++i)
+            {
+                const Point_2 &p1 = subPolygon[i];
+                const Point_2 &p2 = subPolygon[(i + 1) % subPolygon.size()];
+
+                Kernel::Line_2 line(p1, p2);
+
+                // Constraint: -ax - by <= c
+                qp.set_a(X, i, -CGAL::to_double(line.a()));
+                qp.set_a(Y, i, -CGAL::to_double(line.b()));
+                qp.set_b(i, CGAL::to_double(line.c()));
+            }
+
+            Solution solution = CGAL::solve_quadratic_program(qp, ET());
+
+            if (solution.is_infeasible())
+                continue;
+
+            double objective_value = CGAL::to_double(solution.objective_value());
+            if (objective_value < min_objective_function)
+            {
+                min_objective_function = objective_value;
+
+                const auto &viter = solution.variable_values_begin();
+
+                double x = CGAL::to_double(*viter);
+                double y = CGAL::to_double(*(viter + 1));
+
+                _subgoal = Point_2(x, y);
+            }
+        }
+
+        if (min_objective_function != std::numeric_limits<double>::max())
+            return true;
+        else
+            return false;
+    }
+
 } // namespace SubgoalGenerator
