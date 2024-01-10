@@ -129,7 +129,7 @@ namespace SubgoalGenerator
             double left_angle = std::atan2(cone.left_direction_.y(), cone.left_direction_.x());
             left_angle = right_angle < left_angle ? left_angle : left_angle + 2 * M_PI;
 
-            for (double angle = right_angle-1e-8; angle < left_angle; angle = angle + M_PI / 18)
+            for (double angle = right_angle - 1e-8; angle < left_angle; angle = angle + M_PI / 18)
             {
                 cone_polygon.push_back(Point_2(cone.point_.x() + 1000 * std::cos(angle),
                                                cone.point_.y() + 1000 * std::sin(angle)));
@@ -147,6 +147,16 @@ namespace SubgoalGenerator
         }
 
         return true;
+    }
+
+    std::list<CGAL::Polygon_2<Kernel>> Generator::get_triangular_subPolygons(const CGAL::Polygon_with_holes_2<Kernel> &_cell_w_holes)
+    {
+        CGAL::Polygon_triangulation_decomposition_2<Kernel> triangular_decomp;
+
+        std::list<CGAL::Polygon_2<Kernel>> triangular_decomp_poly_list;
+        triangular_decomp(_cell_w_holes, std::back_inserter(triangular_decomp_poly_list));
+
+        return triangular_decomp_poly_list;
     }
 
     std::list<CGAL::Polygon_2<Kernel>> Generator::get_convex_subPolygons(const CGAL::Polygon_2<Kernel> &_cell)
@@ -374,6 +384,7 @@ namespace SubgoalGenerator
             std::cerr << "Generator::validate_subgoal: "
                       << "There is no agent named " << _agentName << " or "
                       << "the gropuID is invalid" << std::endl;
+            return false;
         }
 
         const auto &agent = agents_[_agentName];

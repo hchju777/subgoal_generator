@@ -6,6 +6,7 @@
 
 #include <CGAL/partition_2.h>
 #include <CGAL/Partition_traits_2.h>
+#include <CGAL/Polygon_triangulation_decomposition_2.h>
 
 #include <CGAL/QP_models.h>
 #include <CGAL/QP_functions.h>
@@ -86,6 +87,8 @@ namespace SubgoalGenerator
         bool get_truncated_polygon(
             const CGAL::Polygon_2<Kernel> &_polygon, const std::vector<Agent::Cone> &_cones,
             CGAL::Polygon_2<Kernel> &_truncated_polygon);
+
+        std::list<CGAL::Polygon_2<Kernel>> get_triangular_subPolygons(const CGAL::Polygon_with_holes_2<Kernel> &_cell_w_holes);
 
         std::list<CGAL::Polygon_2<Kernel>> get_convex_subPolygons(const CGAL::Polygon_2<Kernel> &_cell);
 
