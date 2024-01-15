@@ -9,6 +9,8 @@ namespace SubgoalGenerator
 
         pose_ = _agent.pose_;
         goal_ = _agent.goal_;
+        subgoal_ = _agent.subgoal_;
+
         velocity_ = _agent.velocity_;
         radius_ = _agent.radius_;
 
@@ -27,6 +29,8 @@ namespace SubgoalGenerator
 
             pose_ = _rhs.pose_;
             goal_ = _rhs.goal_;
+            subgoal_ = _rhs.subgoal_;
+
             velocity_ = _rhs.velocity_;
             radius_ = _rhs.radius_;
 
@@ -44,6 +48,9 @@ namespace SubgoalGenerator
         groupID_ = -1;
 
         pose_.setZero();
+        goal_.setZero();
+        subgoal_.setZero();
+
         velocity_.setZero();
         radius_ = 0.0;
 

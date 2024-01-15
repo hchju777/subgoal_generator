@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/src_lib.dir/src/bvc_manager.cpp.o"
   "CMakeFiles/src_lib.dir/src/dynamic_graph.cpp.o"
   "CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o"
+  "CMakeFiles/src_lib.dir/src/pibt.cpp.o"
   "CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o"
   "CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.o"
   "CMakeFiles/src_lib.dir/src/velocity_obstacle.cpp.o"

@@ -67,6 +67,9 @@ namespace SubgoalGenerator
         inline Pose &goal() { return goal_; }
         inline const Pose &goal() const { return goal_; }
 
+        inline Pose &subgoal() { return subgoal_; }
+        inline const Pose &subgoal() const { return subgoal_; }
+
         inline Eigen::Vector2d &velocity() { return velocity_; }
         inline const Eigen::Vector2d &velocity() const { return velocity_; }
 
@@ -106,6 +109,8 @@ namespace SubgoalGenerator
 
         Pose pose_;
         Pose goal_;
+        Pose subgoal_;
+
         Eigen::Vector2d velocity_;
         double radius_{0.0};
 

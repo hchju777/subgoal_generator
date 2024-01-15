@@ -1,0 +1,5 @@
+if(EXISTS "/home/changju/cpp_ws/subgoal_generator/build/pibt_test[1]_tests.cmake")
+  include("/home/changju/cpp_ws/subgoal_generator/build/pibt_test[1]_tests.cmake")
+else()
+  add_test(pibt_test_NOT_BUILT pibt_test_NOT_BUILT)
+endif()

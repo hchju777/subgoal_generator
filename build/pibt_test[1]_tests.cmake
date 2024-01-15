@@ -1,0 +1,7 @@
+add_test( PIBTTest.FindSubgoal_TEST /home/changju/cpp_ws/subgoal_generator/build/pibt_test [==[--gtest_filter=PIBTTest.FindSubgoal_TEST]==] --gtest_also_run_disabled_tests)
+set_tests_properties( PIBTTest.FindSubgoal_TEST PROPERTIES WORKING_DIRECTORY /home/changju/cpp_ws/subgoal_generator/build)
+add_test( PIBTTest.FindGarrison_TEST /home/changju/cpp_ws/subgoal_generator/build/pibt_test [==[--gtest_filter=PIBTTest.FindGarrison_TEST]==] --gtest_also_run_disabled_tests)
+set_tests_properties( PIBTTest.FindGarrison_TEST PROPERTIES WORKING_DIRECTORY /home/changju/cpp_ws/subgoal_generator/build)
+add_test( PIBTTest.TruncatedPolyGen_TEST /home/changju/cpp_ws/subgoal_generator/build/pibt_test [==[--gtest_filter=PIBTTest.TruncatedPolyGen_TEST]==] --gtest_also_run_disabled_tests)
+set_tests_properties( PIBTTest.TruncatedPolyGen_TEST PROPERTIES WORKING_DIRECTORY /home/changju/cpp_ws/subgoal_generator/build)
+set( pibt_test_TESTS PIBTTest.FindSubgoal_TEST PIBTTest.FindGarrison_TEST PIBTTest.TruncatedPolyGen_TEST)

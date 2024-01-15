@@ -71,6 +71,11 @@ if (BUILD_TESTS)
   target_link_libraries(velocity_obstacle_test GTest::gtest_main)
   gtest_discover_tests(velocity_obstacle_test)
 
+  add_executable(pibt_test test/pibt_test.cpp)
+  target_link_libraries(pibt_test libraries)
+  target_link_libraries(pibt_test GTest::gtest_main)
+  gtest_discover_tests(pibt_test)
+
   add_executable(subgoal_generator_test test/subgoal_generator_test.cpp)
   target_link_libraries(subgoal_generator_test libraries)
   target_link_libraries(subgoal_generator_test GTest::gtest_main)

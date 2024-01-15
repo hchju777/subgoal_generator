@@ -125,6 +125,8 @@ CGAL/partition_2.h
 -
 CGAL/Partition_traits_2.h
 -
+CGAL/Polygon_triangulation_decomposition_2.h
+-
 CGAL/QP_models.h
 -
 CGAL/QP_functions.h
