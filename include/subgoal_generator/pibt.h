@@ -4,26 +4,10 @@
 #include <set>
 #include <stack>
 
-#include <CGAL/Polygon_triangulation_decomposition_2.h>
-
-#include <CGAL/QP_models.h>
-#include <CGAL/QP_functions.h>
-#ifdef CGAL_USE_GMP
-#include <CGAL/Gmpz.h>
-typedef CGAL::Gmpz ET;
-#else
-#include <CGAL/MP_Float.h>
-typedef CGAL::MP_Float ET;
-#endif
-
 #include "subgoal_generator/agent.h"
 #include "subgoal_generator/bvc_generator.h"
 
 #include "subgoal_generator/pibt_subgoal_util.h"
-
-typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel;
-
-typedef Kernel::Point_2 Point_2;
 
 namespace SubgoalGenerator::PIBT
 {
@@ -32,10 +16,6 @@ namespace SubgoalGenerator::PIBT
     public:
         typedef std::unique_ptr<Solver> UniquePtr;
         typedef std::shared_ptr<Solver> SharedPtr;
-
-    protected:
-        typedef CGAL::Quadratic_program<double> Program;
-        typedef CGAL::Quadratic_program_solution<ET> Solution;
 
     public:
         typedef BufferedVoronoiDiagram::VoronoiCell VoronoiCell;

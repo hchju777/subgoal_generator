@@ -13,10 +13,6 @@ typedef CGAL::MP_Float ET;
 
 #include "subgoal_generator/bvc_generator.h"
 
-typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel;
-
-typedef Kernel::Point_2 Point_2;
-
 namespace SubgoalGenerator::PIBT
 {
     class SubgoalUtil
