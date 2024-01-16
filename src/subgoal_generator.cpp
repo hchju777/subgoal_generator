@@ -27,72 +27,47 @@ namespace SubgoalGenerator
         agents_.swap(agents_);
         agents_.clear();
 
-        std::vector<BufferedVoronoiDiagram::Generator::UniquePtr> empty_groups;
-        groups_.swap(empty_groups);
-        groups_.clear();
+        std::vector<PIBT::Solver::SharedPtr> empty_solvers;
+        solvers_.swap(empty_solvers);
+        solvers_.clear();
 
         graph_->reset();
     }
 
-    bool Generator::get_BVC_Generator(
-        const DynamicGraph::Vertices &_group,
-        BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator)
+    bool Generator::generate_subgoals(Agents &_agents)
     {
-        std::vector<Site_2> points;
+        reset();
 
-        for (const auto &vertexPair : _group)
+        for (const auto &agentPair : _agents)
         {
-            const DynamicGraph::Vertex &vertex = vertexPair.second;
-
-            if (not(agents_.contains(vertex.name()) or graph_->vertices().contains(vertex.name())))
-            {
-                std::cerr << "SubgoalGenerator::Generator::get_BVC_Generator(): "
-                          << "There is no agent named" << vertex.name() << std::endl;
-
-                return false;
-            }
-
-            agents_[vertex.name()].groupID() = groups_.size();
-
-            points.push_back(Site_2(vertex.current().x(), vertex.current().y()));
+            const Agent &agent = agentPair.second;
+            emplaceAgent(agent);
         }
 
-        _bvc_generator = std::make_shared<BufferedVoronoiDiagram::Generator>(points);
+        std::list<DynamicGraph::Vertices> groupList = graph_->generateGroupList();
 
-        return true;
-    }
-
-    bool Generator::generateBVC(
-        const DynamicGraph::Vertices &_group,
-        BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator,
-        std::map<std::string, VoronoiCell> &_voronoi_diagram,
-        std::map<std::string, VoronoiCell> &_buffered_voronoi_diagram)
-    {
-        for (const auto &vertexPair : _group)
+        for (const auto &group : graph_->generateGroupList())
         {
-            const DynamicGraph::Vertex &vertex = vertexPair.second;
-
-            VoronoiCell voronoi_cell;
-            voronoi_cell.first = Point_2(vertex.current().x(), vertex.current().y());
-            if (not(_bvc_generator->get_polygon(voronoi_cell.first, voronoi_cell.second)))
+            Agents agentsGroup;
+            for (const auto &vertexPair : group)
             {
-                std::cerr << "SubgoalGenerator::Generator::generateBVC(): "
-                          << "There is no voronoi cell." << std::endl;
+                std::string name = vertexPair.first;
 
-                return false;
+                agentsGroup.emplace(name, agents_[name]);
             }
-            _voronoi_diagram.emplace(vertex.name(), voronoi_cell);
 
-            VoronoiCell buffered_voronoi_cell = voronoi_cell;
-            if (not(_bvc_generator->convert_to_bvc(buffered_voronoi_cell.second, agents_[vertex.name()].radius())))
-            {
-                // There is no buffered voronoi cell
-                continue;
-            }
-            _buffered_voronoi_diagram.emplace(vertex.name(), buffered_voronoi_cell);
+            PIBT::Solver::SharedPtr pibt_solver = std::make_shared<PIBT::Solver>(agentsGroup);
+            solvers_.push_back(pibt_solver);
         }
 
-        return true;
+        for (const auto &solver : solvers_)
+        {
+            if (solver->solve())
+            {
+            }
+        }
+
+        return false;
     }
 
     bool Generator::updateVOCones(const DynamicGraph::Vertices &_group)

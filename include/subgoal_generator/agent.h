@@ -58,9 +58,6 @@ namespace SubgoalGenerator
         inline std::string &name() { return name_; }
         inline const std::string &name() const { return name_; }
 
-        inline int &groupID() { return groupID_; }
-        inline const int &groupID() const { return groupID_; }
-
         inline Pose &pose() { return pose_; }
         inline const Pose &pose() const { return pose_; }
 
@@ -105,7 +102,6 @@ namespace SubgoalGenerator
 
     protected:
         std::string name_;
-        int groupID_{-1};
 
         Pose pose_;
         Pose goal_;

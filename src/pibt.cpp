@@ -2,12 +2,10 @@
 
 namespace SubgoalGenerator::PIBT
 {
-    Solver::Solver(const Agents &_agents,
-                   const BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator)
+    Solver::Solver(const Agents &_agents)
+        : agents_(_agents)
     {
-        agents_ = _agents;
-
-        bvc_generator_ = _bvc_generator;
+        get_BVC_Generator(bvc_generator_);
     }
 
     Solver::Solver(const Solver &_solver)
@@ -27,6 +25,66 @@ namespace SubgoalGenerator::PIBT
         }
 
         return *this;
+    }
+
+    bool Solver::solve()
+    {
+        std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> voronoi_diagram, buffered_voronoi_diagram;
+        if (not(generateBVC(voronoi_diagram, buffered_voronoi_diagram)))
+        {
+            std::cerr << "SubgoalGenerator::Generator::solve(): "
+                      << "Fail to generate voronoi diagram." << std::endl;
+            return false;
+        }
+
+        return true;
+    }
+
+    bool Solver::get_BVC_Generator(BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator)
+    {
+        std::vector<Site_2> points;
+
+        for (const auto &agentPair : agents_)
+        {
+            const Agent &agent = agentPair.second;
+
+            points.push_back(Site_2(agent.pose().x(), agent.pose().y()));
+        }
+
+        _bvc_generator = std::make_shared<BufferedVoronoiDiagram::Generator>(points);
+
+        return true;
+    }
+
+    bool Solver::generateBVC(
+        std::map<std::string, VoronoiCell> &_voronoi_diagram,
+        std::map<std::string, VoronoiCell> &_buffered_voronoi_diagram)
+    {
+        for (const auto &agentPair : agents_)
+        {
+            const Agent &agent = agentPair.second;
+
+            VoronoiCell voronoi_cell;
+            voronoi_cell.first = Point_2(agent.pose().x(), agent.pose().y());
+            if (not(bvc_generator_->get_polygon(voronoi_cell.first, voronoi_cell.second)))
+            {
+                std::cerr << "SubgoalGenerator::Generator::generateBVC(): "
+                          << "There is no voronoi cell." << std::endl;
+
+                return false;
+            }
+            _voronoi_diagram.emplace(agent.name(), voronoi_cell);
+
+            VoronoiCell buffered_voronoi_cell = voronoi_cell;
+            if (not(bvc_generator_->convert_to_bvc(buffered_voronoi_cell.second, agent.radius())))
+            {
+                // There is no buffered voronoi cell
+                continue;
+            }
+            _buffered_voronoi_diagram.emplace(agent.name(), buffered_voronoi_cell);
+        }
+
+        return true;
     }
 
     bool Solver::get_truncated_polygon(
@@ -146,7 +204,7 @@ namespace SubgoalGenerator::PIBT
     bool Solver::find_garrison(std::string _invader, const Point_2 &_subgoal,
                                std::string &_garrison)
     {
-        if (not(agents_.contains(_invader)) or agents_[_invader].groupID() < 0)
+        if (not(agents_.contains(_invader)))
         {
             std::cerr << "PIBT::Solver::validate_subgoal: "
                       << "There is no agent named " << _invader << " or "
@@ -265,7 +323,7 @@ namespace SubgoalGenerator::PIBT
 
     bool Solver::validate_subgoal(std::string _agentName, const Point_2 &_subgoal)
     {
-        if (not(agents_.contains(_agentName)) or agents_[_agentName].groupID() < 0)
+        if (not(agents_.contains(_agentName)))
         {
             std::cerr << "PIBT::Solver::validate_subgoal: "
                       << "There is no agent named " << _agentName << " or "

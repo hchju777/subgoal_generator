@@ -3,8 +3,16 @@
 
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/agent.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/bvc_generator.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/bvc_manager.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/dynamic_graph.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/dynamic_graph_manager.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/pibt.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/pibt_manager.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/pose.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/subgoal_generator.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/velocity_obstacle.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/velocity_obstacle_manager.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/vertex.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../test/pibt_test.cpp
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: _deps/googletest-src/googletest/include/gtest/gtest-assertion-result.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: _deps/googletest-src/googletest/include/gtest/gtest-death-test.h

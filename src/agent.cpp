@@ -5,7 +5,6 @@ namespace SubgoalGenerator
     Agent::Agent(const Agent &_agent)
     {
         name_ = _agent.name_;
-        groupID_ = _agent.groupID_;
 
         pose_ = _agent.pose_;
         goal_ = _agent.goal_;
@@ -25,7 +24,6 @@ namespace SubgoalGenerator
         if (&_rhs != this)
         {
             name_ = _rhs.name_;
-            groupID_ = _rhs.groupID_;
 
             pose_ = _rhs.pose_;
             goal_ = _rhs.goal_;
@@ -45,8 +43,6 @@ namespace SubgoalGenerator
 
     void Agent::init()
     {
-        groupID_ = -1;
-
         pose_.setZero();
         goal_.setZero();
         subgoal_.setZero();

@@ -21,6 +21,7 @@ typedef CGAL::MP_Float ET;
 #include "subgoal_generator/bvc_manager.h"
 #include "subgoal_generator/dynamic_graph_manager.h"
 #include "subgoal_generator/velocity_obstacle_manager.h"
+#include "subgoal_generator/pibt.h"
 
 namespace SubgoalGenerator
 {
@@ -77,16 +78,9 @@ namespace SubgoalGenerator
         }
 
     public:
-        bool get_BVC_Generator(
-            const DynamicGraph::Vertices &_group,
-            BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator);
+        bool generate_subgoals(Agents &_agents);
 
-        bool generateBVC(
-            const DynamicGraph::Vertices &_group,
-            BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator,
-            std::map<std::string, VoronoiCell> &_voronoi_diagram,
-            std::map<std::string, VoronoiCell> &_buffered_voronoi_diagram);
-
+    public:
         bool updateVOCones(const DynamicGraph::Vertices &_group);
 
     protected:
@@ -94,7 +88,7 @@ namespace SubgoalGenerator
 
         DynamicGraph::Graph::SharedPtr graph_{std::make_shared<DynamicGraph::Graph>()};
 
-        std::vector<BufferedVoronoiDiagram::Generator::UniquePtr> groups_;
+        std::vector<PIBT::Solver::SharedPtr> solvers_;
 
     protected:
         double communication_range_{5.0};

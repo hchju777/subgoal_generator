@@ -16,6 +16,7 @@ typedef CGAL::MP_Float ET;
 
 #include "subgoal_generator/agent.h"
 #include "subgoal_generator/bvc_generator.h"
+#include "subgoal_generator/velocity_obstacle.h"
 
 typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel;
 
@@ -34,10 +35,12 @@ namespace SubgoalGenerator::PIBT
         typedef CGAL::Quadratic_program_solution<ET> Solution;
 
     public:
+        typedef BufferedVoronoiDiagram::VoronoiCell VoronoiCell;
+
+    public:
         Solver() {}
 
-        Solver(const Agents &_agents,
-               const BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator);
+        Solver(const Agents &_agents);
 
         Solver(const Solver &_solver);
 
@@ -52,6 +55,19 @@ namespace SubgoalGenerator::PIBT
 
     public:
         Solver &operator=(const Solver &_rhs);
+
+    public:
+        bool solve();
+
+    public:
+    /**
+     * @name BVC Helper function
+    */
+        bool get_BVC_Generator(BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator);
+
+        bool generateBVC(
+            std::map<std::string, VoronoiCell> &_voronoi_diagram,
+            std::map<std::string, VoronoiCell> &_buffered_voronoi_diagram);
 
     public:
         /**
