@@ -7,6 +7,7 @@ CMakeFiles/subgoal_generator_test.dir/test/subgoal_generator_test.cpp.o: ../incl
 CMakeFiles/subgoal_generator_test.dir/test/subgoal_generator_test.cpp.o: ../include/subgoal_generator/dynamic_graph.h
 CMakeFiles/subgoal_generator_test.dir/test/subgoal_generator_test.cpp.o: ../include/subgoal_generator/dynamic_graph_manager.h
 CMakeFiles/subgoal_generator_test.dir/test/subgoal_generator_test.cpp.o: ../include/subgoal_generator/pibt.h
+CMakeFiles/subgoal_generator_test.dir/test/subgoal_generator_test.cpp.o: ../include/subgoal_generator/pibt_subgoal_util.h
 CMakeFiles/subgoal_generator_test.dir/test/subgoal_generator_test.cpp.o: ../include/subgoal_generator/pose.h
 CMakeFiles/subgoal_generator_test.dir/test/subgoal_generator_test.cpp.o: ../include/subgoal_generator/subgoal_generator.h
 CMakeFiles/subgoal_generator_test.dir/test/subgoal_generator_test.cpp.o: ../include/subgoal_generator/subgoal_generator_manager.h

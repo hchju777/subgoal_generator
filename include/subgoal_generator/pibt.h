@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <set>
+#include <stack>
 
 #include <CGAL/Polygon_triangulation_decomposition_2.h>
 
@@ -16,7 +18,8 @@ typedef CGAL::MP_Float ET;
 
 #include "subgoal_generator/agent.h"
 #include "subgoal_generator/bvc_generator.h"
-#include "subgoal_generator/velocity_obstacle.h"
+
+#include "subgoal_generator/pibt_subgoal_util.h"
 
 typedef CGAL::Exact_predicates_exact_constructions_kernel Kernel;
 
@@ -40,7 +43,7 @@ namespace SubgoalGenerator::PIBT
     public:
         Solver() {}
 
-        Solver(const Agents &_agents);
+        Solver(const Agents &_agents, std::stack<std::string> _priority_graph);
 
         Solver(const Solver &_solver);
 
@@ -59,6 +62,13 @@ namespace SubgoalGenerator::PIBT
     public:
         bool solve();
 
+    private:
+        // bool priorityInheritance(const Agent &_agent, std::set<std::string>& _close, std::set<std::string> &_open);
+
+        // bool priorityInheritance(const Agent &_child, const Agent &_parent, std::set<std::string>& _close, std::set<std::string> &_open);
+
+        // bool priorityInheritance(const Agent &_agent, const std::vector<std::string> &_candidates, std::set<std::string>& _close, std::set<std::string> &_open);
+
     public:
     /**
      * @name BVC Helper function
@@ -69,46 +79,7 @@ namespace SubgoalGenerator::PIBT
             std::map<std::string, VoronoiCell> &_voronoi_diagram,
             std::map<std::string, VoronoiCell> &_buffered_voronoi_diagram);
 
-    public:
-        /**
-         * @name Substract VO cones and Decompose into triangular subpolygons;
-         */
-
-        bool get_truncated_polygon(
-            const CGAL::Polygon_2<Kernel> &_polygon, const std::vector<Agent::Cone> _cones,
-            CGAL::Polygon_2<Kernel> &_truncated_polygon);
-
-        std::list<CGAL::Polygon_2<Kernel>> get_triangular_subPolygons(const CGAL::Polygon_2<Kernel> &_cell);
-
-        std::list<CGAL::Polygon_2<Kernel>> get_triangular_subPolygons(const CGAL::Polygon_with_holes_2<Kernel> &_cell_w_holes);
-
-    public:
-        /**
-         * @name find a subgoal using quadratic programming
-         */
-        bool find_subgoal(
-            const Point_2 &_goal, std::list<CGAL::Polygon_2<Kernel>> &_convex_subPolygons,
-            Point_2 &_subgoal);
-
-    public:
-        /**
-         * @name find a garrison to inherit priority
-         */
-        bool find_garrison(std::string _invader, const Point_2 &_subgoal,
-                           std::string &_garrison);
-
-        bool find_garrison_point_from_voronoi_diagram(
-            const Point_2 &_invader_point, const Point_2 &_subgoal,
-            const BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator,
-            Point_2 &_garrison_point);
-
     protected:
-        bool find_garrison_point(
-            const Point_2 &_invader_point, const Kernel::Segment_2 &_edge_seg, const VD &_vd,
-            Point_2 &_garrison_point);
-
-        std::string find_garrison_name(const Point_2 &_garrison_point);
-
         bool validate_subgoal(std::string _agentName, const Point_2 &_subgoal);
 
         bool is_in_the_same_face(const Point_2 &_p1, const Point_2 &_p2,
@@ -118,6 +89,8 @@ namespace SubgoalGenerator::PIBT
         Agents agents_;
 
         BufferedVoronoiDiagram::Generator::SharedPtr bvc_generator_;
+
+        std::vector<std::string> priority_list_;
 
     }; // class Solver
 } // namespace SubgoalGenerator::PIBT

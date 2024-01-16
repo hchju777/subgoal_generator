@@ -526,6 +526,33 @@ src/pibt_manager.cpp.s:
 	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/pibt_manager.cpp.s
 .PHONY : src/pibt_manager.cpp.s
 
+src/pibt_subgoal_util.o: src/pibt_subgoal_util.cpp.o
+
+.PHONY : src/pibt_subgoal_util.o
+
+# target to build an object file
+src/pibt_subgoal_util.cpp.o:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/pibt_subgoal_util.cpp.o
+.PHONY : src/pibt_subgoal_util.cpp.o
+
+src/pibt_subgoal_util.i: src/pibt_subgoal_util.cpp.i
+
+.PHONY : src/pibt_subgoal_util.i
+
+# target to preprocess a source file
+src/pibt_subgoal_util.cpp.i:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/pibt_subgoal_util.cpp.i
+.PHONY : src/pibt_subgoal_util.cpp.i
+
+src/pibt_subgoal_util.s: src/pibt_subgoal_util.cpp.s
+
+.PHONY : src/pibt_subgoal_util.s
+
+# target to generate assembly for a file
+src/pibt_subgoal_util.cpp.s:
+	$(MAKE) -f CMakeFiles/src_lib.dir/build.make CMakeFiles/src_lib.dir/src/pibt_subgoal_util.cpp.s
+.PHONY : src/pibt_subgoal_util.cpp.s
+
 src/subgoal_generator.o: src/subgoal_generator.cpp.o
 
 .PHONY : src/subgoal_generator.o
@@ -817,6 +844,9 @@ help:
 	@echo "... src/pibt_manager.o"
 	@echo "... src/pibt_manager.i"
 	@echo "... src/pibt_manager.s"
+	@echo "... src/pibt_subgoal_util.o"
+	@echo "... src/pibt_subgoal_util.i"
+	@echo "... src/pibt_subgoal_util.s"
 	@echo "... src/subgoal_generator.o"
 	@echo "... src/subgoal_generator.i"
 	@echo "... src/subgoal_generator.s"

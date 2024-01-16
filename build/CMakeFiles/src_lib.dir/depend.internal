@@ -26,12 +26,9 @@ CMakeFiles/src_lib.dir/src/dynamic_graph_manager.cpp.o
 CMakeFiles/src_lib.dir/src/pibt.cpp.o
  ../include/subgoal_generator/agent.h
  ../include/subgoal_generator/bvc_generator.h
- ../include/subgoal_generator/dynamic_graph.h
- ../include/subgoal_generator/dynamic_graph_manager.h
  ../include/subgoal_generator/pibt.h
+ ../include/subgoal_generator/pibt_subgoal_util.h
  ../include/subgoal_generator/pose.h
- ../include/subgoal_generator/velocity_obstacle.h
- ../include/subgoal_generator/vertex.h
  /home/changju/cpp_ws/subgoal_generator/src/pibt.cpp
 CMakeFiles/src_lib.dir/src/pibt_manager.cpp.o
  ../include/subgoal_generator/agent.h
@@ -41,11 +38,16 @@ CMakeFiles/src_lib.dir/src/pibt_manager.cpp.o
  ../include/subgoal_generator/dynamic_graph_manager.h
  ../include/subgoal_generator/pibt.h
  ../include/subgoal_generator/pibt_manager.h
+ ../include/subgoal_generator/pibt_subgoal_util.h
  ../include/subgoal_generator/pose.h
  ../include/subgoal_generator/velocity_obstacle.h
  ../include/subgoal_generator/velocity_obstacle_manager.h
  ../include/subgoal_generator/vertex.h
  /home/changju/cpp_ws/subgoal_generator/src/pibt_manager.cpp
+CMakeFiles/src_lib.dir/src/pibt_subgoal_util.cpp.o
+ ../include/subgoal_generator/bvc_generator.h
+ ../include/subgoal_generator/pibt_subgoal_util.h
+ /home/changju/cpp_ws/subgoal_generator/src/pibt_subgoal_util.cpp
 CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o
  ../include/subgoal_generator/agent.h
  ../include/subgoal_generator/bvc_generator.h
@@ -53,6 +55,7 @@ CMakeFiles/src_lib.dir/src/subgoal_generator.cpp.o
  ../include/subgoal_generator/dynamic_graph.h
  ../include/subgoal_generator/dynamic_graph_manager.h
  ../include/subgoal_generator/pibt.h
+ ../include/subgoal_generator/pibt_subgoal_util.h
  ../include/subgoal_generator/pose.h
  ../include/subgoal_generator/subgoal_generator.h
  ../include/subgoal_generator/velocity_obstacle.h
@@ -66,6 +69,7 @@ CMakeFiles/src_lib.dir/src/subgoal_generator_manager.cpp.o
  ../include/subgoal_generator/dynamic_graph.h
  ../include/subgoal_generator/dynamic_graph_manager.h
  ../include/subgoal_generator/pibt.h
+ ../include/subgoal_generator/pibt_subgoal_util.h
  ../include/subgoal_generator/pose.h
  ../include/subgoal_generator/subgoal_generator.h
  ../include/subgoal_generator/subgoal_generator_manager.h

@@ -45,6 +45,7 @@ namespace SubgoalGenerator
         }
 
         std::list<DynamicGraph::Vertices> groupList = graph_->generateGroupList();
+        std::stack<std::string> priority_graph = graph_->topologicalSort();
 
         for (const auto &group : graph_->generateGroupList())
         {
@@ -56,7 +57,7 @@ namespace SubgoalGenerator
                 agentsGroup.emplace(name, agents_[name]);
             }
 
-            PIBT::Solver::SharedPtr pibt_solver = std::make_shared<PIBT::Solver>(agentsGroup);
+            PIBT::Solver::SharedPtr pibt_solver = std::make_shared<PIBT::Solver>(agentsGroup, priority_graph);
             solvers_.push_back(pibt_solver);
         }
 

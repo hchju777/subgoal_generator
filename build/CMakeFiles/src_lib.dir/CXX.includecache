@@ -113,6 +113,10 @@ subgoal_generator/dynamic_graph.h
 ../include/subgoal_generator/pibt.h
 memory
 -
+set
+-
+stack
+-
 CGAL/Polygon_triangulation_decomposition_2.h
 -
 CGAL/QP_models.h
@@ -127,8 +131,8 @@ subgoal_generator/agent.h
 ../include/subgoal_generator/subgoal_generator/agent.h
 subgoal_generator/bvc_generator.h
 ../include/subgoal_generator/subgoal_generator/bvc_generator.h
-subgoal_generator/velocity_obstacle.h
-../include/subgoal_generator/subgoal_generator/velocity_obstacle.h
+subgoal_generator/pibt_subgoal_util.h
+../include/subgoal_generator/subgoal_generator/pibt_subgoal_util.h
 
 ../include/subgoal_generator/pibt_manager.h
 string
@@ -147,6 +151,18 @@ subgoal_generator/bvc_manager.h
 ../include/subgoal_generator/subgoal_generator/bvc_manager.h
 subgoal_generator/velocity_obstacle_manager.h
 ../include/subgoal_generator/subgoal_generator/velocity_obstacle_manager.h
+
+../include/subgoal_generator/pibt_subgoal_util.h
+CGAL/QP_models.h
+-
+CGAL/QP_functions.h
+-
+CGAL/Gmpz.h
+-
+CGAL/MP_Float.h
+-
+subgoal_generator/bvc_generator.h
+../include/subgoal_generator/subgoal_generator/bvc_generator.h
 
 ../include/subgoal_generator/pose.h
 Eigen/Core
@@ -226,10 +242,6 @@ iostream
 subgoal_generator/pose.h
 -
 
-/home/changju/cpp_ws/subgoal_generator/src/agent.cpp
-subgoal_generator/agent.h
-/home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/agent.h
-
 /home/changju/cpp_ws/subgoal_generator/src/pibt.cpp
 subgoal_generator/pibt.h
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/pibt.h
@@ -238,6 +250,10 @@ subgoal_generator/pibt.h
 subgoal_generator/pibt_manager.h
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/pibt_manager.h
 
+/home/changju/cpp_ws/subgoal_generator/src/pibt_subgoal_util.cpp
+subgoal_generator/pibt_subgoal_util.h
+/home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/pibt_subgoal_util.h
+
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator.cpp
 subgoal_generator/subgoal_generator.h
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/subgoal_generator.h
@@ -245,12 +261,4 @@ subgoal_generator/subgoal_generator.h
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator_manager.cpp
 subgoal_generator/subgoal_generator_manager.h
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/subgoal_generator_manager.h
-
-/home/changju/cpp_ws/subgoal_generator/src/velocity_obstacle.cpp
-subgoal_generator/velocity_obstacle.h
-/home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/velocity_obstacle.h
-
-/home/changju/cpp_ws/subgoal_generator/src/velocity_obstacle_manager.cpp
-subgoal_generator/velocity_obstacle_manager.h
-/home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/velocity_obstacle_manager.h
 
