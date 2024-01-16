@@ -24,6 +24,7 @@ namespace SubgoalGenerator
 
             Cone(const Cone &_cone)
             {
+                neighbor_ = _cone.neighbor_;
                 point_ = _cone.point_;
                 radius_ = _cone.radius_;
                 left_direction_ = _cone.left_direction_;
@@ -34,6 +35,7 @@ namespace SubgoalGenerator
             {
                 if (&_rhs != this)
                 {
+                    neighbor_ = _rhs.neighbor_;
                     point_ = _rhs.point_;
                     radius_ = _rhs.radius_;
                     left_direction_ = _rhs.left_direction_;
@@ -43,6 +45,7 @@ namespace SubgoalGenerator
                 return *this;
             }
 
+            std::string neighbor_;
             Eigen::Vector2d point_;
             double radius_;
             Eigen::Vector2d left_direction_;

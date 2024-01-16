@@ -226,6 +226,10 @@ iostream
 subgoal_generator/pose.h
 -
 
+/home/changju/cpp_ws/subgoal_generator/src/agent.cpp
+subgoal_generator/agent.h
+/home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/agent.h
+
 /home/changju/cpp_ws/subgoal_generator/src/pibt.cpp
 subgoal_generator/pibt.h
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/pibt.h
@@ -241,4 +245,12 @@ subgoal_generator/subgoal_generator.h
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator_manager.cpp
 subgoal_generator/subgoal_generator_manager.h
 /home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/subgoal_generator_manager.h
+
+/home/changju/cpp_ws/subgoal_generator/src/velocity_obstacle.cpp
+subgoal_generator/velocity_obstacle.h
+/home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/velocity_obstacle.h
+
+/home/changju/cpp_ws/subgoal_generator/src/velocity_obstacle_manager.cpp
+subgoal_generator/velocity_obstacle_manager.h
+/home/changju/cpp_ws/subgoal_generator/src/subgoal_generator/velocity_obstacle_manager.h
 

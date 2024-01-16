@@ -32,6 +32,7 @@ namespace SubgoalGenerator::VelocityObstacle
             const double combinedRadiusSq = combinedRadius * combinedRadius;
 
             Agent::Cone VOCone;
+            VOCone.neighbor_ = other->name();
             VOCone.point_ = agent->pose().position() + other->velocity() * agent->timeHorizon();
 
             if (distSq > combinedRadiusSq)
