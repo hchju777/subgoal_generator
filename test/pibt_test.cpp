@@ -197,6 +197,199 @@ namespace SubgoalGenerator::PIBT
         }
     }
 
+    TEST(PIBTTest, TruncatedPolyGen_TEST)
+    {
+        std::vector<Point_2> polygon1_vertices = {
+            Point_2(-2, -2),
+            Point_2(2, -2),
+            Point_2(2, 2),
+            Point_2(-2, 2)};
+
+        CGAL::Polygon_2<Kernel> polygon1(polygon1_vertices.begin(), polygon1_vertices.end());
+
+        std::vector<Point_2> polygon2_vertices = {
+            Point_2(0, 0),
+            Point_2(2, 0),
+            Point_2(0, 2)};
+
+        CGAL::Polygon_2<Kernel> polygon2(polygon2_vertices.begin(), polygon2_vertices.end());
+
+        Agent::Cone cone1;
+        {
+            cone1.point_ = Eigen::Vector2d(0, 0);
+            cone1.left_direction_ = Eigen::Vector2d(0, 1);
+            cone1.right_direction_ = Eigen::Vector2d(1, 0);
+        }
+
+        Agent::Cone cone2;
+        {
+            cone2.point_ = Eigen::Vector2d(0, 0);
+            cone2.left_direction_ = Eigen::Vector2d(1, 0);
+            cone2.right_direction_ = Eigen::Vector2d(0, 1);
+        }
+
+        Agent::Cone cone3;
+        {
+            cone3.point_ = Eigen::Vector2d(-1, -1);
+            cone3.left_direction_ = Eigen::Vector2d(1, 2);
+            cone3.right_direction_ = Eigen::Vector2d(2, 1);
+        }
+
+        Agent::Cone cone4;
+        {
+            cone4.point_ = Eigen::Vector2d(-1, -1);
+            cone4.left_direction_ = Eigen::Vector2d(-1, -2);
+            cone4.right_direction_ = Eigen::Vector2d(-2, -1);
+        }
+
+        for (const auto &poly : CandidatesUtil::get_truncated_polygon(polygon1, {cone1}))
+        {
+            for (const auto &p : poly.container())
+                std::cout << p << std::endl;
+
+            std::cout << std::endl;
+        }
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        for (const auto &poly : CandidatesUtil::get_truncated_polygon(polygon1, {cone2}))
+        {
+            for (const auto &p : poly.container())
+                std::cout << p << std::endl;
+
+            std::cout << std::endl;
+        }
+
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        for (const auto &poly : CandidatesUtil::get_truncated_polygon(polygon1, {cone1, cone2}))
+        {
+            for (const auto &p : poly.container())
+                std::cout << p << std::endl;
+
+            std::cout << std::endl;
+        }
+
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        for (const auto &poly : CandidatesUtil::get_truncated_polygon(polygon2, {cone3}))
+        {
+            for (const auto &p : poly.container())
+                std::cout << p << std::endl;
+
+            std::cout << std::endl;
+        }
+
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        for (const auto &poly : CandidatesUtil::get_truncated_polygon(polygon2, {cone3, cone4}))
+        {
+            for (const auto &p : poly.container())
+                std::cout << p << std::endl;
+
+            std::cout << std::endl;
+        }
+
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+    }
+
+    TEST(PIBTTest, createCandidates_TEST)
+    {
+        Generator::SharedPtr subgoal_generator;
+        subgoal_generator = std::make_shared<Generator>();
+
+        SubgoalGenerator::Agents agents = generate_random_agents(4);
+
+        for (const auto &agentPair : agents)
+        {
+            subgoal_generator->emplaceAgent(agentPair.second);
+        }
+
+        std::cout.precision(3);
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        Manager::printAgents(subgoal_generator->agents());
+
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        Manager::printGraph(subgoal_generator->graph());
+
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        std::list<Manager::ExportDB> exportDBList;
+        const auto &groupList = subgoal_generator->graph()->generateGroupList();
+        std::stack<std::string> priority_graph = subgoal_generator->graph()->topologicalSort();
+
+        for (const auto &group : groupList)
+        {
+            EXPECT_EQ(subgoal_generator->updateVOCones(group), true);
+
+            Agents agentsGroup;
+            for (const auto &vertexPair : group)
+            {
+                std::string name = vertexPair.first;
+
+                agentsGroup.emplace(name, agents[name]);
+            }
+
+            Solver::SharedPtr solver = std::make_shared<Solver>(agentsGroup, priority_graph);
+
+            auto agentPair = *(solver->agents().begin());
+
+            std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> voronoi_diagram, buffered_voronoi_diagram;
+            EXPECT_EQ(solver->generateBVC(voronoi_diagram, buffered_voronoi_diagram), true);
+
+            {
+                Manager::ExportDB exportDB;
+                for (const auto &vcPair : voronoi_diagram)
+                {
+                    Manager::ExportDataContainer exportData;
+                    {
+                        exportData.agent_ = subgoal_generator->agents()[vcPair.first];
+                        exportData.voronoi_cell_ = vcPair.second;
+                    }
+                    exportDB.emplace(exportData.agent_.name(), exportData);
+                }
+
+                for (const auto &bvcPair : buffered_voronoi_diagram)
+                {
+                    exportDB[bvcPair.first].buffered_voronoi_cell_ = bvcPair.second;
+                }
+
+                exportDBList.emplace_back(exportDB);
+            }
+
+            std::set<std::string> close;
+            auto candidates = solver->createCandidates(agentPair.second, buffered_voronoi_diagram[agentPair.first], close);
+
+            std::cout << agentPair.second << std::endl;
+            for (const auto &candidate : candidates)
+            {
+                std::cout << "\tNeighbor: " << candidate.first << std::endl;
+                std::cout << "\tPolygon:" << std::endl;
+
+                for (const auto &poly : candidate.second)
+                {
+                    for (const auto &p : poly.container())
+                    {
+                        std::cout << "\t\t" << p << std::endl;
+                    }
+                    std::cout << std::endl;
+                }
+                std::cout << std::endl;
+            }
+
+            EXPECT_EQ(Manager::exportDBList(exportDBList), true);
+        }
+    }
+
 } // namespace SubgoalGenerator::PIBT
 
 int main(int argc, char **argv)

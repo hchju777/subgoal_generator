@@ -85,6 +85,9 @@ namespace SubgoalGenerator
         inline double &timeHorizon() { return timeHorizon_; }
         inline const double &timeHorizon() const { return timeHorizon_; }
 
+        inline bool &subgoal_fixed() { return subgoal_fixed_; }
+        inline const bool &subgoal_fixed() const { return subgoal_fixed_; }
+
     public:
         Agent &operator=(const Agent &_rhs);
 
@@ -117,6 +120,8 @@ namespace SubgoalGenerator
         std::vector<Cone> VOCones_;
 
         double timeHorizon_{0.05};
+
+        bool subgoal_fixed_{false};
 
     public:
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW

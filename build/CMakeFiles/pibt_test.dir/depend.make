@@ -7,6 +7,7 @@ CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/bvc_
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/dynamic_graph.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/dynamic_graph_manager.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/pibt.h
+CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/pibt_candidates_util.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/pibt_manager.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/pibt_subgoal_util.h
 CMakeFiles/pibt_test.dir/test/pibt_test.cpp.o: ../include/subgoal_generator/pose.h

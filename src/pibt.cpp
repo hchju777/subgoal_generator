@@ -69,6 +69,52 @@ namespace SubgoalGenerator::PIBT
         return true;
     }
 
+    std::list<Solver::Candidate> Solver::createCandidates(
+        const Agent &_agent, const VoronoiCell &_bvc,
+        const std::set<std::string> &_close, std::string _parent)
+    {
+        std::set<std::string> close = _close;
+        if (_parent != std::string())
+            close.emplace(_parent);
+
+        std::list<Candidate> candidates;
+
+        std::vector<Agent::Cone> cones;
+        for (const auto &cone : _agent.VOCones())
+        {
+            if (agents_[cone.neighbor_].subgoal_fixed())
+                cones.push_back(cone);
+        }
+
+        auto rawCandidates = CandidatesUtil::createRawCandidates(_agent, _bvc, bvc_generator_->vd());
+        for (const auto rawCandidatePair : rawCandidates)
+        {
+            const Point_2 &neighborSite = rawCandidatePair.first;
+
+            std::pair<std::string, Agent> neighborPair = *std::min_element(
+                agents_.begin(), agents_.end(),
+                [neighborSite](const auto &_agentPair1, const auto &_agentPair2)
+                {
+                    const double dx1 = _agentPair1.second.pose().x() - CGAL::to_double(neighborSite.x());
+                    const double dy1 = _agentPair1.second.pose().y() - CGAL::to_double(neighborSite.y());
+
+                    const double dx2 = _agentPair2.second.pose().x() - CGAL::to_double(neighborSite.x());
+                    const double dy2 = _agentPair2.second.pose().y() - CGAL::to_double(neighborSite.y());
+
+                    return (dx1 * dx1 + dy1 * dy1) < (dx2 * dx2 + dy2 * dy2);
+                });
+
+            if (_close.contains(neighborPair.first))
+                continue;
+
+            const CGAL::Polygon_2<Kernel> &triangular_subpolygon = rawCandidatePair.second;
+
+            candidates.emplace_back(neighborPair.first, CandidatesUtil::get_truncated_polygon(triangular_subpolygon, cones));
+        }
+
+        return candidates;
+    }
+
     bool Solver::get_BVC_Generator(BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator)
     {
         std::vector<Site_2> points;

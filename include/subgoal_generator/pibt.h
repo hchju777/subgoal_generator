@@ -7,6 +7,7 @@
 #include "subgoal_generator/agent.h"
 #include "subgoal_generator/bvc_generator.h"
 
+#include "subgoal_generator/pibt_candidates_util.h"
 #include "subgoal_generator/pibt_subgoal_util.h"
 
 namespace SubgoalGenerator::PIBT
@@ -19,6 +20,9 @@ namespace SubgoalGenerator::PIBT
 
     public:
         typedef BufferedVoronoiDiagram::VoronoiCell VoronoiCell;
+
+    public:
+        typedef std::pair<std::string, std::list<CGAL::Polygon_2<Kernel>>> Candidate;
 
     public:
         Solver() {}
@@ -42,7 +46,7 @@ namespace SubgoalGenerator::PIBT
     public:
         bool solve();
 
-    private:
+    protected:
         // bool priorityInheritance(const Agent &_agent, std::set<std::string>& _close, std::set<std::string> &_open);
 
         // bool priorityInheritance(const Agent &_child, const Agent &_parent, std::set<std::string>& _close, std::set<std::string> &_open);
@@ -50,9 +54,14 @@ namespace SubgoalGenerator::PIBT
         // bool priorityInheritance(const Agent &_agent, const std::vector<std::string> &_candidates, std::set<std::string>& _close, std::set<std::string> &_open);
 
     public:
-    /**
-     * @name BVC Helper function
-    */
+        std::list<Candidate> createCandidates(
+            const Agent &_agent, const VoronoiCell &_bvc,
+            const std::set<std::string> &_close, std::string _parent = std::string());
+    
+    public:
+        /**
+         * @name BVC Helper function
+         */
         bool get_BVC_Generator(BufferedVoronoiDiagram::Generator::SharedPtr &_bvc_generator);
 
         bool generateBVC(

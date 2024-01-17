@@ -17,6 +17,8 @@ namespace SubgoalGenerator
         VOCones_ = _agent.VOCones_;
 
         timeHorizon_ = _agent.timeHorizon_;
+
+        subgoal_fixed_ = _agent.subgoal_fixed_;
     }
     
     Agent &Agent::operator=(const Agent &_rhs)
@@ -36,6 +38,8 @@ namespace SubgoalGenerator
             VOCones_ = _rhs.VOCones_;
 
             timeHorizon_ = _rhs.timeHorizon_;
+
+            subgoal_fixed_ = _rhs.subgoal_fixed_;
         }
 
         return *this;
@@ -57,5 +61,7 @@ namespace SubgoalGenerator
         VOCones_.swap(empty_VOCones);
 
         timeHorizon_ = 0.05;
+
+        subgoal_fixed_ = false;
     }
 } // namespace SubgoalGenerator
