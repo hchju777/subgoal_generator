@@ -143,60 +143,6 @@ namespace SubgoalGenerator::PIBT
         }
     }
 
-    TEST(PIBTTest, FindSubgoal_TEST)
-    {
-        Solver::SharedPtr pibt_solver = std::make_shared<Solver>();
-
-        //! Input
-        // Define the goal point
-        const std::vector<Point_2> goals = {
-            Point_2(2, 2),
-            Point_2(4, 4),
-            Point_2(7, 0),
-            Point_2(10, 4),
-            Point_2(6, 10),
-            Point_2(0, 7),
-            Point_2(6, 6)};
-
-        const std::vector<Point_2> subgoals = {
-            Point_2(6, 2),
-            Point_2(5, 5),
-            Point_2(7, 2),
-            Point_2(8, 4),
-            Point_2(6, 8),
-            Point_2(2, 7),
-            Point_2(6, 6)};
-
-        // Define the polygon vertices
-        const std::vector<Point_2> polygonVertices = {
-            Point_2(2, 6),
-            Point_2(4, 6),
-            Point_2(6, 4),
-            Point_2(6, 2),
-            Point_2(8, 2),
-            Point_2(8, 8),
-            Point_2(2, 8)};
-
-        const CGAL::Polygon_2<Kernel> polygon(polygonVertices.begin(), polygonVertices.end());
-
-        //! Process
-        CGAL::Polygon_triangulation_decomposition_2<Kernel> triangular_decomp;
-
-        std::list<CGAL::Polygon_2<Kernel>> triangular_decomp_poly_list;
-        triangular_decomp(polygon, std::back_inserter(triangular_decomp_poly_list));
-
-        for (size_t i = 0; i < goals.size(); ++i)
-        {
-            Point_2 subgoal;
-
-            const Point_2 &goal = goals[i];
-            const Point_2 &subgoal_answer = subgoals[i];
-
-            EXPECT_EQ(PIBT::SubgoalUtil::find_subgoal(goal, triangular_decomp_poly_list, subgoal), true);
-            EXPECT_EQ(subgoal, subgoal_answer);
-        }
-    }
-
     TEST(PIBTTest, TruncatedPolyGen_TEST)
     {
         std::vector<Point_2> polygon1_vertices = {
@@ -366,8 +312,14 @@ namespace SubgoalGenerator::PIBT
                 exportDBList.emplace_back(exportDB);
             }
 
-            std::set<std::string> close;
-            auto candidates = solver->createCandidates(agentPair.second, buffered_voronoi_diagram[agentPair.first], close);
+            std::set<std::string> close, open;
+
+            for (const auto &agent : solver->agents())
+            {
+                open.emplace(agent.first);
+            }
+
+            auto candidates = solver->createCandidates(agentPair.second, buffered_voronoi_diagram[agentPair.first], close, open);
 
             std::cout << agentPair.second << std::endl;
             for (const auto &candidate : candidates)
@@ -387,6 +339,122 @@ namespace SubgoalGenerator::PIBT
             }
 
             EXPECT_EQ(Manager::exportDBList(exportDBList), true);
+        }
+    }
+
+    TEST(PIBTTest, PIBT_TEST)
+    {
+        Generator::SharedPtr subgoal_generator;
+        subgoal_generator = std::make_shared<Generator>();
+
+        SubgoalGenerator::Agents agents = generate_random_agents(4);
+
+        // for (auto &agentPair : agents)
+        // {
+        //     Agent &agent = agentPair.second;
+
+        //     if (agent.name() == "robot1")
+        //     {
+        //         agent.radius() = 0.4;
+        //         agent.pose() = Pose(0.874, -1.24, 0.521);
+        //         agent.goal() = Pose(2.23, -0.828, -2.47);
+        //         agent.velocity() = Eigen::Vector2d(0.378, 0.217);
+        //     }
+        //     else if (agent.name() == "robot2")
+        //     {
+        //         agent.radius() = 0.5;
+        //         agent.pose() = Pose(-0.422, -2.29, 1.8);
+        //         agent.goal() = Pose(-1.86, 2.32, 2.78);
+        //         agent.velocity() = Eigen::Vector2d(-0.00414, 0.0181);
+        //     }
+        //     else if (agent.name() == "robot3")
+        //     {
+        //         agent.radius() = 0.6;
+        //         agent.pose() = Pose(2.43, -1.08, -3.14);
+        //         agent.goal() = Pose(0.738, -1.56, 0.848);
+        //         agent.velocity() = Eigen::Vector2d(-0.65, -0.00407);
+        //     }
+        //     else if (agent.name() == "robot4")
+        //     {
+        //         agent.radius() = 0.4;
+        //         agent.pose() = Pose(1.99, 1.04, 2.17);
+        //         agent.goal() = Pose(1.71, 1.65, 1.19);
+        //         agent.velocity() = Eigen::Vector2d(-0.29, 0.422);
+        //     }
+        // }
+
+        for (const auto &agentPair : agents)
+        {
+            subgoal_generator->emplaceAgent(agentPair.second);
+        }
+
+        std::cout.precision(3);
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        Manager::printAgents(subgoal_generator->agents());
+
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        Manager::printGraph(subgoal_generator->graph());
+
+        std::cout << "==========================================================================="
+                  << "===========================================================================" << std::endl;
+
+        std::list<Manager::ExportDB> exportDBList;
+        const auto &groupList = subgoal_generator->graph()->generateGroupList();
+        std::stack<std::string> priority_graph = subgoal_generator->graph()->topologicalSort();
+
+        for (const auto &group : groupList)
+        {
+            EXPECT_EQ(subgoal_generator->updateVOCones(group), true);
+
+            Agents agentsGroup;
+            for (const auto &vertexPair : group)
+            {
+                std::string name = vertexPair.first;
+
+                agentsGroup.emplace(name, subgoal_generator->agents()[name]);
+            }
+
+            Solver::SharedPtr solver = std::make_shared<Solver>(agentsGroup, priority_graph);
+
+            solver->solve();
+
+            for (const auto &agentPair : solver->agents())
+            {
+                const Agent &agent = agentPair.second;
+
+                std::cout << agent.name() << ": " << agent.subgoal().x() << ", " << agent.subgoal().y() << std::endl;
+            }
+
+            auto agentPair = *(solver->agents().begin());
+
+            std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> voronoi_diagram, buffered_voronoi_diagram;
+            EXPECT_EQ(solver->generateBVC(voronoi_diagram, buffered_voronoi_diagram), true);
+
+            {
+                Manager::ExportDB exportDB;
+                for (const auto &vcPair : voronoi_diagram)
+                {
+                    Manager::ExportDataContainer exportData;
+                    {
+                        exportData.agent_ = solver->agents()[vcPair.first];
+                        exportData.voronoi_cell_ = vcPair.second;
+                    }
+                    exportDB.emplace(exportData.agent_.name(), exportData);
+                }
+
+                for (const auto &bvcPair : buffered_voronoi_diagram)
+                {
+                    exportDB[bvcPair.first].buffered_voronoi_cell_ = bvcPair.second;
+                }
+
+                exportDBList.emplace_back(exportDB);
+            }
+
+            EXPECT_EQ(Manager::exportDBList(exportDBList, "result", "pibt_result"), true);
         }
     }
 

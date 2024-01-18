@@ -3,64 +3,104 @@
 namespace SubgoalGenerator::PIBT
 {
     bool SubgoalUtil::find_subgoal(
-        const Point_2 &_goal, std::list<CGAL::Polygon_2<Kernel>> &_convex_subPolygons,
+        const Point_2 &_goal, const std::list<CGAL::Polygon_2<Kernel>> &_subpolygons,
         Point_2 &_subgoal)
     {
         double min_objective_value = std::numeric_limits<double>::max();
-
-        for (const auto &subPolygon : _convex_subPolygons)
+        for (const auto &subpolygon : _subpolygons)
         {
-            Program qp(CGAL::SMALLER, false, 0, false, 0);
+            std::list<CGAL::Polygon_2<Kernel>> triangular_subpolygons = triangular_decompose(subpolygon);
 
-            SubgoalUtil::set_quadratic_program(qp, _goal, subPolygon);
+            Point_2 local_subgoal;
+            double local_objective_value;
 
-            Solution solution = CGAL::solve_quadratic_program(qp, ET());
-
-            if (solution.is_infeasible())
+            if (not(SubgoalUtil::find_subgoal(_goal, triangular_subpolygons, local_subgoal, local_objective_value)))
                 continue;
 
-            double objective_value = CGAL::to_double(solution.objective_value());
-            if (objective_value < min_objective_value)
+            if (min_objective_value > local_objective_value)
             {
-                min_objective_value = objective_value;
-
-                const auto &viter = solution.variable_values_begin();
-
-                double x = CGAL::to_double(*viter);
-                double y = CGAL::to_double(*(viter + 1));
-
-                _subgoal = Point_2(x, y);
+                min_objective_value = local_objective_value;
+                _subgoal = local_subgoal;
             }
         }
 
         return (min_objective_value != std::numeric_limits<double>::max());
     }
 
-    void SubgoalUtil::set_quadratic_program(Program &_qp, const Point_2 &_goal, const CGAL::Polygon_2<Kernel> &_polygon)
+    bool SubgoalUtil::find_subgoal(
+        const Point_2 &_goal, const std::list<CGAL::Polygon_2<Kernel>> &_convex_subpolygons,
+        Point_2 &_subgoal, double &_min_objective_value)
     {
-        const int X = 0;
-        const int Y = 1;
+        _min_objective_value = std::numeric_limits<double>::max();
 
-        // Minimize: (x - goal.x)^2 + (y - goal.y)^2
-        _qp.set_d(X, X, 2);
-        _qp.set_d(Y, Y, 2);
-        _qp.set_c(X, -2 * CGAL::to_double(_goal.x()));
-        _qp.set_c(Y, -2 * CGAL::to_double(_goal.y()));
-        _qp.set_c0(CGAL::to_double(_goal.x() * _goal.x() + _goal.y() * _goal.y()));
-
-        // Add linear inequalities to represent polygon edges
-        for (std::size_t i = 0; i < _polygon.size(); ++i)
+        for (const auto &subpolygon : _convex_subpolygons)
         {
-            const Point_2 &p1 = _polygon[i];
-            const Point_2 &p2 = _polygon[(i + 1) % _polygon.size()];
+            Point_2 local_subgoal = _goal;
 
-            Kernel::Line_2 line(p1, p2);
+            if (subpolygon.bounded_side(_goal) == CGAL::ON_UNBOUNDED_SIDE)
+            {
+                std::min_element(subpolygon.edges_begin(), subpolygon.edges_end(),
+                                 [_goal, &local_subgoal](const auto &_a, const auto &_b)
+                                 {
+                                     const std::list<CGAL::Segment_2<Kernel>> edgeList = {_a, _b};
+                                     std::list<Point_2> subgoalList;
 
-            // Constraint: -ax - by <= c
-            _qp.set_a(X, i, -CGAL::to_double(line.a()));
-            _qp.set_a(Y, i, -CGAL::to_double(line.b()));
-            _qp.set_b(i, CGAL::to_double(line.c()));
+                                     for (const auto &edge : edgeList)
+                                     {
+                                         const CGAL::Vector_2<Kernel> edgeVec = edge.target() - edge.source();
+                                         const CGAL::Vector_2<Kernel> legVec = _goal - edge.source();
+
+                                         if (CGAL::scalar_product(edgeVec, legVec) < 0)
+                                             subgoalList.push_back(edge.source());
+                                         else if (CGAL::scalar_product(edgeVec, legVec) > CGAL::scalar_product(edgeVec, edgeVec))
+                                             subgoalList.push_back(edge.target());
+                                         else
+                                             subgoalList.push_back(
+                                                 edge.source() + CGAL::scalar_product(edgeVec, legVec) / CGAL::scalar_product(edgeVec, edgeVec) * edgeVec);
+                                     }
+
+                                     if (CGAL::squared_distance(_goal, subgoalList.front()) < CGAL::squared_distance(_goal, subgoalList.back()))
+                                     {
+                                         local_subgoal = subgoalList.front();
+                                         return true;
+                                     }
+                                     else
+                                     {
+                                         local_subgoal = subgoalList.back();
+                                         return false;
+                                     }
+                                 });
+            }
+
+            const double local_objective_value = CGAL::to_double(CGAL::squared_distance(local_subgoal, _goal));
+            if (local_objective_value < _min_objective_value)
+            {
+                _min_objective_value = local_objective_value;
+                _subgoal = local_subgoal;
+            }
         }
+
+        return (_min_objective_value != std::numeric_limits<double>::max());
+    }
+
+    std::list<CGAL::Polygon_2<Kernel>> SubgoalUtil::triangular_decompose(const CGAL::Polygon_2<Kernel> &_cell)
+    {
+        CGAL::Polygon_triangulation_decomposition_2<Kernel> triangular_decomp;
+
+        std::list<CGAL::Polygon_2<Kernel>> triangular_decomp_poly_list;
+        triangular_decomp(_cell, std::back_inserter(triangular_decomp_poly_list));
+
+        return triangular_decomp_poly_list;
+    }
+
+    std::list<CGAL::Polygon_2<Kernel>> SubgoalUtil::triangular_decompose(const CGAL::Polygon_with_holes_2<Kernel> &_cell_w_holes)
+    {
+        CGAL::Polygon_triangulation_decomposition_2<Kernel> triangular_decomp;
+
+        std::list<CGAL::Polygon_2<Kernel>> triangular_decomp_poly_list;
+        triangular_decomp(_cell_w_holes, std::back_inserter(triangular_decomp_poly_list));
+
+        return triangular_decomp_poly_list;
     }
 
 } // namespace SubgoalGenerator::PIBT

@@ -137,8 +137,6 @@ Eigen/Dense
 -
 Eigen/Geometry
 -
-CGAL/Polygon_triangulation_decomposition_2.h
--
 subgoal_generator/agent.h
 ../include/subgoal_generator/subgoal_generator/agent.h
 subgoal_generator/bvc_generator.h
@@ -163,13 +161,7 @@ subgoal_generator/velocity_obstacle_manager.h
 ../include/subgoal_generator/subgoal_generator/velocity_obstacle_manager.h
 
 ../include/subgoal_generator/pibt_subgoal_util.h
-CGAL/QP_models.h
--
-CGAL/QP_functions.h
--
-CGAL/Gmpz.h
--
-CGAL/MP_Float.h
+CGAL/Polygon_triangulation_decomposition_2.h
 -
 subgoal_generator/bvc_generator.h
 ../include/subgoal_generator/subgoal_generator/bvc_generator.h

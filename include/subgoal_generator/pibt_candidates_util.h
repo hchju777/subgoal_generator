@@ -7,8 +7,6 @@
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 
-#include <CGAL/Polygon_triangulation_decomposition_2.h>
-
 #include "subgoal_generator/agent.h"
 #include "subgoal_generator/bvc_generator.h"
 
@@ -31,11 +29,6 @@ namespace SubgoalGenerator::PIBT
 
     protected:
         static void sort_raw_candidates(std::list<RawCandidate> &_rawCandidates, const Agent &_agent);
-
-    public:
-        static std::list<CGAL::Polygon_2<Kernel>> triangular_decompose(const CGAL::Polygon_2<Kernel> &_cell);
-
-        static std::list<CGAL::Polygon_2<Kernel>> triangular_decompose(const CGAL::Polygon_with_holes_2<Kernel> &_cell_w_holes);
 
     }; // class CandidatesUtil
 

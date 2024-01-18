@@ -1,15 +1,6 @@
 #pragma once
 
-// CGAL includes
-#include <CGAL/QP_models.h>
-#include <CGAL/QP_functions.h>
-#ifdef CGAL_USE_GMP
-#include <CGAL/Gmpz.h>
-typedef CGAL::Gmpz ET;
-#else
-#include <CGAL/MP_Float.h>
-typedef CGAL::MP_Float ET;
-#endif
+#include <CGAL/Polygon_triangulation_decomposition_2.h>
 
 #include "subgoal_generator/bvc_generator.h"
 
@@ -17,18 +8,19 @@ namespace SubgoalGenerator::PIBT
 {
     class SubgoalUtil
     {
-    protected:
-        typedef CGAL::Quadratic_program<double> Program;
-        typedef CGAL::Quadratic_program_solution<ET> Solution;
-
     public:
         static bool find_subgoal(
-            const Point_2 &_goal, std::list<CGAL::Polygon_2<Kernel>> &_convex_subPolygons,
-            Point_2 &_subgoal);
+            const Point_2 &_goal, const std::list<CGAL::Polygon_2<Kernel>> &_subpolygons, Point_2 &_subgoal);
+
+        static bool find_subgoal(
+            const Point_2 &_goal, const std::list<CGAL::Polygon_2<Kernel>> &_convex_subpolygons,
+            Point_2 &_subgoal, double &_min_objective_value);
 
     protected:
-        static void set_quadratic_program(Program &_qp, const Point_2 &_goal, const CGAL::Polygon_2<Kernel> &_polygon);
-        
+        static std::list<CGAL::Polygon_2<Kernel>> triangular_decompose(const CGAL::Polygon_2<Kernel> &_cell);
+
+        static std::list<CGAL::Polygon_2<Kernel>> triangular_decompose(const CGAL::Polygon_with_holes_2<Kernel> &_cell_w_holes);
+
     }; // class SubgoalUtil
 
 } // namespace SubgoalGenerator::PIBT

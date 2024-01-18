@@ -69,12 +69,15 @@ namespace SubgoalGenerator::VelocityObstacle
 
         std::vector<double> pose = {_agent.pose().position().x(), _agent.pose().position().y(), _agent.pose().theta()};
         std::vector<double> goal = {_agent.goal().position().x(), _agent.goal().position().y(), _agent.goal().theta()};
+        std::vector<double> subgoal = {_agent.subgoal().position().x(), _agent.subgoal().position().y()};
         std::vector<double> velocity = {_agent.velocity().x(), _agent.velocity().y()};
 
         info["pose"] = pose;
         info["pose"].SetStyle(YAML::EmitterStyle::Flow);
         info["goal"] = goal;
         info["goal"].SetStyle(YAML::EmitterStyle::Flow);
+        info["subgoal"] = subgoal;
+        info["subgoal"].SetStyle(YAML::EmitterStyle::Flow);
         info["velocity"] = velocity;
         info["velocity"].SetStyle(YAML::EmitterStyle::Flow);
 

@@ -63,27 +63,39 @@ namespace SubgoalGenerator::PIBT
         {
             Agent agent = agents_[priority_list_.front()];
 
-            // priorityInheritance(agent, close, open);
+            priorityInheritance(agent.name(), buffered_voronoi_diagram, close, open);
+
+            priority_list_.remove_if([&open](std::string _agentName)
+                                     { return not(open.contains(_agentName)); });
         }
 
         return true;
     }
 
     std::list<Solver::Candidate> Solver::createCandidates(
-        const Agent &_agent, const VoronoiCell &_bvc,
-        const std::set<std::string> &_close, std::string _parent)
+        Agent &_agent, const VoronoiCell &_bvc,
+        const std::set<std::string> &_close, const std::set<std::string> &_open, std::string _parent)
     {
         std::set<std::string> close = _close;
+
         if (_parent != std::string())
             close.emplace(_parent);
 
         std::list<Candidate> candidates;
 
         std::vector<Agent::Cone> cones;
-        for (const auto &cone : _agent.VOCones())
+
+        for (auto iter = _agent.VOCones().begin(); iter != _agent.VOCones().end();)
         {
-            if (agents_[cone.neighbor_].subgoal_fixed())
-                cones.push_back(cone);
+            if (_open.contains(iter->neighbor_))
+            {
+                iter = _agent.VOCones().erase(iter);
+            }
+            else
+            {
+                cones.push_back(*iter);
+                ++iter;
+            }
         }
 
         auto rawCandidates = CandidatesUtil::createRawCandidates(_agent, _bvc, bvc_generator_->vd());
@@ -104,12 +116,20 @@ namespace SubgoalGenerator::PIBT
                     return (dx1 * dx1 + dy1 * dy1) < (dx2 * dx2 + dy2 * dy2);
                 });
 
-            if (_close.contains(neighborPair.first))
+            if (neighborPair.first != _agent.name() and close.contains(neighborPair.first))
                 continue;
 
             const CGAL::Polygon_2<Kernel> &triangular_subpolygon = rawCandidatePair.second;
+            const std::list<CGAL::Polygon_2<Kernel>> &truncated_polygon = CandidatesUtil::get_truncated_polygon(triangular_subpolygon, cones);
 
-            candidates.emplace_back(neighborPair.first, CandidatesUtil::get_truncated_polygon(triangular_subpolygon, cones));
+            double truncated_area = std::accumulate(truncated_polygon.begin(), truncated_polygon.end(), 0.0,
+                                                    [](double _sum, const CGAL::Polygon_2<Kernel> &_poly)
+                                                    { return _sum += CGAL::to_double(_poly.area()); });
+
+            if (truncated_area < 0.2)
+                continue;
+
+            candidates.emplace_back(neighborPair.first, truncated_polygon);
         }
 
         return candidates;
@@ -129,6 +149,78 @@ namespace SubgoalGenerator::PIBT
         _bvc_generator = std::make_shared<BufferedVoronoiDiagram::Generator>(points);
 
         return true;
+    }
+
+    bool Solver::priorityInheritance(
+        const std::string _agentName, std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> &_buffered_voronoi_diagram,
+        std::set<std::string> &_close, std::set<std::string> &_open)
+    {
+        if (not(_open.contains(_agentName)))
+            return true;
+
+        std::list<Candidate> candidates = createCandidates(
+            agents_[_agentName], _buffered_voronoi_diagram[_agentName], _close, _open);
+
+        return priorityInheritance(_agentName, _buffered_voronoi_diagram, candidates, _close, _open);
+    }
+
+    bool Solver::priorityInheritance(
+        const std::string _childName, const std::string _parentName,
+        std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> &_buffered_voronoi_diagram,
+        std::set<std::string> &_close, std::set<std::string> &_open)
+    {
+        if (not(_open.contains(_childName)))
+            return true;
+
+        std::list<Candidate> candidates = createCandidates(
+            agents_[_childName], _buffered_voronoi_diagram[_childName], _close, _open, _parentName);
+
+        return priorityInheritance(_childName, _buffered_voronoi_diagram, candidates, _close, _open);
+    }
+
+    bool Solver::priorityInheritance(
+        const std::string _agentName, std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> &_buffered_voronoi_diagram,
+        std::list<Candidate> _candidates, std::set<std::string> &_close, std::set<std::string> &_open)
+    {
+        Agent &agent = agents_[_agentName];
+
+        std::cout << agent.name() << std::endl;
+
+        _open.erase(_agentName);
+
+        while (not(_candidates.empty()))
+        {
+            Candidate candidate = _candidates.front();
+            std::string candidateName = candidate.first;
+            _close.emplace(candidateName);
+
+            if (_agentName != candidateName and not(priorityInheritance(candidateName, _agentName, _buffered_voronoi_diagram, _close, _open)))
+            {
+                _candidates.remove_if([&_close](Candidate _candidate)
+                                      { return _close.contains(_candidate.first); });
+
+                continue;
+            }
+
+            Point_2 goal(agent.goal().x(), agent.goal().y());
+            Point_2 subgoal;
+
+            if (SubgoalUtil::find_subgoal(goal, candidate.second, subgoal))
+            {
+                agent.subgoal().x() = CGAL::to_double(subgoal.x());
+                agent.subgoal().y() = CGAL::to_double(subgoal.y());
+
+                agent.subgoal_fixed() = true;
+
+                return true;
+            }
+            _candidates.pop_front();
+        }
+
+        agent.subgoal() = agent.pose();
+        agent.subgoal_fixed() = true;
+
+        return false;
     }
 
     bool Solver::generateBVC(

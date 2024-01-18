@@ -47,17 +47,25 @@ namespace SubgoalGenerator::PIBT
         bool solve();
 
     protected:
-        // bool priorityInheritance(const Agent &_agent, std::set<std::string>& _close, std::set<std::string> &_open);
+        bool priorityInheritance(
+            const std::string _agentName, std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> &_buffered_voronoi_diagram,
+            std::set<std::string> &_close, std::set<std::string> &_open);
 
-        // bool priorityInheritance(const Agent &_child, const Agent &_parent, std::set<std::string>& _close, std::set<std::string> &_open);
+        bool priorityInheritance(
+            const std::string _childName, const std::string _parentName,
+            std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> &_buffered_voronoi_diagram,
+            std::set<std::string> &_close, std::set<std::string> &_open);
 
-        // bool priorityInheritance(const Agent &_agent, const std::vector<std::string> &_candidates, std::set<std::string>& _close, std::set<std::string> &_open);
+        bool priorityInheritance(
+            const std::string _agentName, std::map<std::string, BufferedVoronoiDiagram::VoronoiCell> &_buffered_voronoi_diagram,
+            std::list<Candidate> _candidates, std::set<std::string> &_close, std::set<std::string> &_open);
 
     public:
         std::list<Candidate> createCandidates(
-            const Agent &_agent, const VoronoiCell &_bvc,
-            const std::set<std::string> &_close, std::string _parent = std::string());
-    
+            Agent &_agent, const VoronoiCell &_bvc,
+            const std::set<std::string> &_close, const std::set<std::string> &_open,
+            std::string _parent = std::string());
+
     public:
         /**
          * @name BVC Helper function
@@ -79,7 +87,7 @@ namespace SubgoalGenerator::PIBT
 
         BufferedVoronoiDiagram::Generator::SharedPtr bvc_generator_;
 
-        std::vector<std::string> priority_list_;
+        std::list<std::string> priority_list_;
 
     }; // class Solver
 } // namespace SubgoalGenerator::PIBT

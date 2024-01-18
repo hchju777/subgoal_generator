@@ -35,6 +35,13 @@ namespace SubgoalGenerator::PIBT
             else
                 continue;
 
+            if (std::pow(CGAL::to_double(neighbor_site.x() - estimated_neighbor_site.x()), 2) +
+                    std::pow(CGAL::to_double(neighbor_site.y() - estimated_neighbor_site.y()), 2) >
+                1e-1)
+            {
+                neighbor_site = site;
+            }
+
             CGAL::Polygon_2<Kernel> triangular_subpolygon;
 
             triangular_subpolygon.push_back(site);
@@ -91,36 +98,36 @@ namespace SubgoalGenerator::PIBT
         _rawCandidates.sort(
             [_agent](const CandidatesUtil::RawCandidate &_c1, const CandidatesUtil::RawCandidate &_c2)
             {
-                const Eigen::Vector2d goal_vec(_agent.goal().x() - _agent.pose().x(), _agent.goal().y() - _agent.pose().y());
+                const Eigen::Vector3d goal_vec(_agent.goal().x() - _agent.pose().x(), _agent.goal().y() - _agent.pose().y(), 0);
 
-                const Eigen::Vector2d c1_vec(CGAL::to_double(_c1.first.x()) - _agent.pose().x(), CGAL::to_double(_c1.first.y()) - _agent.pose().y());
-                const Eigen::Vector2d c2_vec(CGAL::to_double(_c2.first.x()) - _agent.pose().x(), CGAL::to_double(_c2.first.y()) - _agent.pose().y());
+                const std::vector<RawCandidate> rawCandidateGroup = {_c1, _c2};
+                std::vector<double> closest_leg_dots;
 
-                const double cos_theta1 = goal_vec.dot(c1_vec) / (goal_vec.norm() * c1_vec.norm());
-                const double cos_theta2 = goal_vec.dot(c2_vec) / (goal_vec.norm() * c2_vec.norm());
+                for (size_t i = 0; i < rawCandidateGroup.size(); ++i)
+                {
+                    std::list<Eigen::Vector3d> legs;
+                    for (const auto &p : rawCandidateGroup[i].second.container())
+                    {
+                        if (std::fabs(CGAL::to_double(p.x()) - _agent.pose().x()) < 1e-8 and
+                            std::fabs(CGAL::to_double(p.y()) - _agent.pose().y()) < 1e-8)
+                        {
+                            continue;
+                        }
 
-                return cos_theta1 < cos_theta2;
+                        legs.push_back(
+                            Eigen::Vector3d(CGAL::to_double(p.x()) - _agent.pose().x(), CGAL::to_double(p.y()) - _agent.pose().y(), 0));
+                    }
+
+                    if (legs.front().cross(goal_vec).z() * legs.front().cross(legs.back()).z() > 0 and
+                        legs.front().cross(goal_vec).z() * legs.back().cross(goal_vec).z() < 0)
+                        return i == 0;
+
+                    closest_leg_dots.push_back(std::max(
+                        legs.front().dot(goal_vec) / legs.front().norm(),
+                        legs.back().dot(goal_vec) / legs.back().norm()));
+                }
+
+                return closest_leg_dots.front() > closest_leg_dots.back();
             });
     }
-
-    std::list<CGAL::Polygon_2<Kernel>> CandidatesUtil::triangular_decompose(const CGAL::Polygon_2<Kernel> &_cell)
-    {
-        CGAL::Polygon_triangulation_decomposition_2<Kernel> triangular_decomp;
-
-        std::list<CGAL::Polygon_2<Kernel>> triangular_decomp_poly_list;
-        triangular_decomp(_cell, std::back_inserter(triangular_decomp_poly_list));
-
-        return triangular_decomp_poly_list;
-    }
-
-    std::list<CGAL::Polygon_2<Kernel>> CandidatesUtil::triangular_decompose(const CGAL::Polygon_with_holes_2<Kernel> &_cell_w_holes)
-    {
-        CGAL::Polygon_triangulation_decomposition_2<Kernel> triangular_decomp;
-
-        std::list<CGAL::Polygon_2<Kernel>> triangular_decomp_poly_list;
-        triangular_decomp(_cell_w_holes, std::back_inserter(triangular_decomp_poly_list));
-
-        return triangular_decomp_poly_list;
-    }
-
 } // namespace SubgoalGenerator::PIBT
